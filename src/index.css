@@ -1,4 +1,4 @@
-/* Using Calibri font - system font with fallbacks */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -102,7 +102,8 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground antialiased;
   }
 
   h1,
@@ -111,6 +112,7 @@
   h4,
   h5,
   h6 {
-    @apply font-display;
+    font-family: 'Inter', sans-serif;
+    @apply font-bold;
   }
 }

@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Playfair Display", "serif"],
-        body: ["DM Sans", "sans-serif"],
+        display: ["Calibri", "Trebuchet MS", "sans-serif"],
+        body: ["Calibri", "Trebuchet MS", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

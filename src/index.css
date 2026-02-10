@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+/* Using Calibri font - system font with fallbacks */
 
 @tailwind base;
 @tailwind components;
@@ -15,30 +15,30 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 12%;
 
-    --primary: 348 72% 42%;
+    --primary: 357 87% 52%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 348 60% 96%;
-    --secondary-foreground: 348 72% 42%;
+    --secondary: 357 60% 96%;
+    --secondary-foreground: 357 87% 52%;
 
-    --muted: 348 30% 96%;
+    --muted: 357 30% 96%;
     --muted-foreground: 0 0% 40%;
 
-    --accent: 348 60% 94%;
-    --accent-foreground: 348 72% 42%;
+    --accent: 357 60% 94%;
+    --accent-foreground: 357 87% 52%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 348 72% 42%;
+    --ring: 357 87% 52%;
 
     --radius: 0.75rem;
 
-    --hero-bg: 348 60% 96%;
-    --hero-accent: 348 72% 42%;
-    --hero-glow: 348 80% 60%;
+    --hero-bg: 357 60% 96%;
+    --hero-accent: 357 87% 52%;
+    --hero-glow: 357 80% 60%;
     --stat-bg: 0 0% 100%;
 
     --sidebar-background: 0 0% 98%;
@@ -105,7 +105,12 @@
     @apply bg-background text-foreground font-body antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display;
   }
 }

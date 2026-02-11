@@ -7,12 +7,12 @@ const FAQ = () => {
 
     const faqs = [
         {
-            question: "Who can enroll in ISHLT India certification programs?",
+            question: "Who can enroll in INSHLT India certification programs?",
             answer: "Our programs are designed for medical professionals, including transplant surgeons, cardiologists, pulmonologists, and clinical coordinators who want to specialize in heart and lung transplantation."
         },
         {
-            question: "Are the courses recognized by ISHLT India?",
-            answer: "Yes, all our courses are developed and certified by the Indian Society of Heart and Lung Transplantation (ISHLT India), providing recognized credentials for your professional development."
+            question: "Are the courses recognized by INSHLT India?",
+            answer: "Yes, all our courses are developed and certified by the Indian Society of Heart and Lung Transplantation (INSHLT India), providing recognized credentials for your professional development."
         },
         {
             question: "Do the programs include live clinical sessions?",
@@ -29,7 +29,7 @@ const FAQ = () => {
     ];
 
     return (
-        <section className="py-24 px-6 bg-white overflow-hidden">
+        <section id="faq" className="py-24 px-6 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
                 {/* LEFT CONTENT */}

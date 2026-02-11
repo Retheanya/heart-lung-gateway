@@ -1,6 +1,6 @@
-# ISHLT Learning - Heart & Lung Transplantation Education
+# INSHLT Learning - Heart & Lung Transplantation Education
 
-Industry-led certification programs with live expert sessions, clinical insights, assessments, and recognized certification from ISHLT India.
+Industry-led certification programs with live expert sessions, clinical insights, assessments, and recognized certification from INSHLT India.
 
 ## Features
 

@@ -18,6 +18,7 @@ const AboutSection = () => {
 
     return (
         <section
+            id="about"
             ref={sectionRef}
             className="bg-white py-16 lg:py-24 px-4 lg:px-8"
         >

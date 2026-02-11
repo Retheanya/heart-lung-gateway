@@ -12,7 +12,7 @@ const WhyChooseUs = () => {
         },
         {
             title: "Evidence-Based Curriculum",
-            description: "Our courses are designed around the latest ISHLT guidelines and clinical protocols, ensuring you stay at the forefront of medical advancement."
+            description: "Our courses are designed around the latest INSHLT guidelines and clinical protocols, ensuring you stay at the forefront of medical advancement."
         },
         {
             title: "Interactive Case Discussions",
@@ -56,7 +56,7 @@ const WhyChooseUs = () => {
                             border: "1px solid transparent",
                         }}
                     >
-                        Why Choose ISHLT Learning
+                        Why Choose INSHLT Learning
                     </span>
 
                     {/* HEADING */}

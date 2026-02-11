@@ -45,20 +45,29 @@ const Footer = () => {
                 <div className="pt-10 border-t border-white/5">
                     <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
 
-                        {/* Contact Info */}
-                        <div className="flex flex-wrap justify-center lg:justify-start gap-12">
-                            {/* Email */}
+                        {/* Legal Links (Replacing Contact Info) */}
+                        <div className="flex flex-wrap justify-center lg:justify-start gap-8">
+                            {/* Terms of Use */}
+                            <a href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">
+                                Terms of Use
+                            </a>
+
+                            {/* Privacy Policy */}
+                            <a href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">
+                                Privacy Policy
+                            </a>
+
+                            {/* Original Contact Info Commented Out
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
                                     <Mail size={22} />
                                 </div>
                                 <div>
                                     <p className="text-white font-bold text-sm">Email:</p>
-                                    <p className="text-gray-400 text-sm">info@ishltindia.org</p>
+                                    <p className="text-gray-400 text-sm">info@inshltindia.org</p>
                                 </div>
                             </div>
 
-                            {/* Phone */}
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
                                     <Phone size={22} />
@@ -69,7 +78,6 @@ const Footer = () => {
                                 </div>
                             </div>
 
-                            {/* Location */}
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
                                     <MapPin size={22} />
@@ -79,6 +87,7 @@ const Footer = () => {
                                     <p className="text-gray-400 text-sm">New Delhi, India</p>
                                 </div>
                             </div>
+                            */}
                         </div>
 
                         {/* Social Icons */}

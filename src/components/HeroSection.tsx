@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronRight, Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import { useState, useEffect, useRef } from "react";
 
@@ -67,7 +68,7 @@ const HeroSection = () => {
                   transition={{ duration: 0.5 }}
                   className="text-primary font-medium text-base italic"
                 >
-                  Welcome to ISHLT Learning,
+                  Welcome to INSHLT Learning,
                 </motion.p>
 
                 {/* Main Heading */}
@@ -91,7 +92,7 @@ const HeroSection = () => {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="text-muted-foreground text-base leading-relaxed max-w-md"
                 >
-                  Industry-led certification programs with live expert sessions, clinical insights, assessments, and recognized certification from ISHLT India.
+                  Industry-led certification programs with live expert sessions, clinical insights, assessments, and recognized certification from INSHLT India.
                 </motion.p>
 
                 {/* CTA Button + Trusted By */}
@@ -101,14 +102,16 @@ const HeroSection = () => {
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="flex flex-wrap items-center gap-6"
                 >
-                  <Button
-                    variant="hero"
-                    size="lg"
-                    className="gap-2 text-sm font-medium px-6 py-5 rounded-full hover:scale-105 transition-transform"
-                  >
-                    <ChevronRight size={16} />
-                    Explore Courses
-                  </Button>
+                  <Link to="/courses">
+                    <Button
+                      variant="hero"
+                      size="lg"
+                      className="gap-2 text-sm font-medium px-6 py-5 rounded-full hover:scale-105 transition-transform"
+                    >
+                      <ChevronRight size={16} />
+                      Explore Courses
+                    </Button>
+                  </Link>
 
                   {/* Trusted By Section */}
                   <div className="flex items-center gap-3">

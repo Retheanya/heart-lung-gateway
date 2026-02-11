@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const courses = [
     {
@@ -80,11 +81,14 @@ const CourseCard = ({ course, index, progress, totalCards }: { course: typeof co
             className="absolute inset-0 flex items-center justify-center p-4 lg:p-0"
         >
             {/* Main Card Container */}
-            <div className="relative w-full max-w-4xl lg:h-[70vh] rounded-[2.5rem] border-[6px] lg:border-[12px] border-primary/20 overflow-hidden shadow-2xl bg-white">
+            <Link
+                to="/course-detail"
+                className="relative w-full max-w-4xl lg:h-[70vh] rounded-[2.5rem] border-[6px] lg:border-[12px] border-primary/20 overflow-hidden shadow-2xl bg-white block group"
+            >
                 <img
                     src={course.image}
                     alt={course.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
                 {/* Top Right Counter Indicator */}
@@ -110,7 +114,7 @@ const CourseCard = ({ course, index, progress, totalCards }: { course: typeof co
                         </div>
                     </div>
                 </div>
-            </div>
+            </Link>
         </motion.div>
     );
 };

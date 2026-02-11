@@ -6,7 +6,7 @@ const infoCards = [
     {
         icon: <Mail className="w-5 h-5" />,
         label: "Email",
-        value: "support@ishltindia.org",
+        value: "support@inshltindia.org",
     },
     {
         icon: <Phone className="w-5 h-5" />,
@@ -22,10 +22,10 @@ const infoCards = [
 
 const ContactSection = () => {
     return (
-        <section id="contact" className="py-20 lg:py-32 bg-white">
+        <section id="register" className="py-20 lg:py-32 bg-white">
             <div className="container mx-auto px-4 lg:px-8">
                 {/* Top Header Section */}
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10 mb-12">
+                <div id="contact" className="flex flex-col lg:flex-row lg:items-center justify-between gap-10 mb-12">
                     <div className="max-w-xl">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}

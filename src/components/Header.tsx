@@ -6,7 +6,7 @@ import logo from "@/assets/logo.png";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "About INSHLT", href: "/#about" },
+  { label: "About INSHLT", href: "/about" },
   { label: "Courses", href: "/courses" },
   { label: "Register", href: "/#register" },
   { label: "Contact", href: "/#contact" },
@@ -41,8 +41,8 @@ const Header = () => {
                 key={link.label}
                 href={link.href}
                 className={`px-5 py-2.5 rounded-full text-base font-medium transition-colors duration-200 ${active
-                    ? "text-primary font-semibold relative before:absolute before:left-3 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary pl-7"
-                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                  ? "text-primary font-semibold relative before:absolute before:left-3 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary pl-7"
+                  : "text-foreground/70 hover:text-foreground hover:bg-muted"
                   }`}
               >
                 {link.label}
@@ -52,8 +52,8 @@ const Header = () => {
                 key={link.label}
                 to={link.href}
                 className={`px-5 py-2.5 rounded-full text-base font-medium transition-colors duration-200 ${active
-                    ? "text-primary font-semibold relative before:absolute before:left-3 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary pl-7"
-                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                  ? "text-primary font-semibold relative before:absolute before:left-3 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary pl-7"
+                  : "text-foreground/70 hover:text-foreground hover:bg-muted"
                   }`}
               >
                 {link.label}
@@ -65,9 +65,11 @@ const Header = () => {
         {/* Login Button */}
         <div className="hidden lg:flex items-center gap-3">
           <div className="w-px h-6 bg-border" />
-          <Button variant="hero" size="lg" className="gap-2 text-sm font-medium px-6 py-5 rounded-full hover:scale-105 transition-transform">
-            Portal Login
-          </Button>
+          <Link to="/login">
+            <Button variant="hero" size="lg" className="gap-2 text-sm font-medium px-6 py-5 rounded-full hover:scale-105 transition-transform">
+              Portal Login
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -93,8 +95,8 @@ const Header = () => {
                   key={link.label}
                   href={link.href}
                   className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${active
-                      ? "text-primary bg-secondary font-semibold"
-                      : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                    ? "text-primary bg-secondary font-semibold"
+                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
                     }`}
                   onClick={() => setMobileOpen(false)}
                 >
@@ -105,8 +107,8 @@ const Header = () => {
                   key={link.label}
                   to={link.href}
                   className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${active
-                      ? "text-primary bg-secondary font-semibold"
-                      : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                    ? "text-primary bg-secondary font-semibold"
+                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
                     }`}
                   onClick={() => setMobileOpen(false)}
                 >
@@ -114,9 +116,11 @@ const Header = () => {
                 </Link>
               );
             })}
-            <Button variant="hero" size="lg" className="mt-3">
-              Portal Login
-            </Button>
+            <Link to="/login" className="w-full">
+              <Button variant="hero" size="lg" className="mt-3 w-full">
+                Portal Login
+              </Button>
+            </Link>
           </nav>
         </div>
       )}

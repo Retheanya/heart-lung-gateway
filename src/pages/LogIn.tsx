@@ -16,7 +16,7 @@ const LogIn = () => {
                     {/* Left Column - Form */}
                     <div className="max-w-xl w-full mx-auto lg:ml-0">
 
-                        <h1 className="text-5xl lg:text-5.5xl font-extrabold text-[#1a1a1a] mb-10 tracking-tight leading-[1.1]">
+                        <h1 className="text-5xl lg:text-6xl font-extrabold text-[#1a1a1a] mb-10 tracking-tight leading-[1.1]">
                             Login
                         </h1>
 

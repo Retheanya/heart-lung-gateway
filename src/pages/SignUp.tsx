@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import logo from "@/assets/logo.png";
 import signupHero from "@/assets/signupHero.png";
 
 
@@ -18,7 +17,7 @@ const SignUp = () => {
                     {/* Left Column - Form */}
                     <div className="max-w-xl w-full mx-auto lg:ml-0">
 
-                        <h1 className="text-5xl lg:text-5.5xl font-extrabold text-[#1a1a1a] mb-10 tracking-tight leading-[1.1]">
+                        <h1 className="text-5xl lg:text-6xl font-extrabold text-[#1a1a1a] mb-10 tracking-tight leading-[1.1]">
                             Create an account
                         </h1>
 
@@ -55,7 +54,7 @@ const SignUp = () => {
                         </form>
 
                         <p className="mt-8 text-center text-lg font-medium text-gray-500">
-                            Already have an account? <Link to="#" className="text-[#2563eb] hover:underline font-semibold">Login</Link>
+                            Already have an account? <Link to="/login" className="text-[#2563eb] hover:underline font-semibold">Login</Link>
                         </p>
 
                     </div>

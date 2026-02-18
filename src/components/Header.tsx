@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "About INSHLT", href: "/about" },
   { label: "Courses", href: "/courses" },
-  { label: "Register", href: "/#register" },
+  { label: "Register", href: "/register" },
   { label: "Contact", href: "/#contact" },
 ];
 

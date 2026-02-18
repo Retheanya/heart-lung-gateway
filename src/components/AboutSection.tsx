@@ -1,20 +1,14 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const AboutSection = () => {
     const sectionRef = useRef<HTMLDivElement>(null);
 
-    // Track scroll progress within the section
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start 0.8", "start 0.2"]
-    });
-
     // About text content
-    const aboutText = "We are a specialized transplant education center dedicated to advancing knowledge in heart and lung transplantation. From comprehensive certification programs to expert-led workshops, we provide cutting-edge learning experiences for medical professionals worldwide.";
-
-    // Split text into words for animation
-    const words = aboutText.split(" ");
+    const aboutText = "INSHLT is the Indian Society for Heart and Lung Transplantation, a professional medical organization dedicated to advancing heart and lung transplant medicine in India.";
 
     return (
         <section
@@ -24,7 +18,7 @@ const AboutSection = () => {
         >
             <div className="container mx-auto">
                 {/* Top Section - Badge and Text */}
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 mb-12 lg:mb-16">
+                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 mb-12 lg:mb-16 items-start">
                     {/* About Us Badge */}
                     <div className="lg:col-span-3">
                         <motion.div
@@ -40,29 +34,33 @@ const AboutSection = () => {
                         </motion.div>
                     </div>
 
-                    {/* Animated Text */}
-                    <div className="lg:col-span-9">
+                    {/* Text and Button */}
+                    <div className="lg:col-span-9 flex flex-col items-end">
                         <motion.p
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.2 }}
-                            className="text-xl md:text-2xl lg:text-2xl font-semibold leading-relaxed"
+                            className="text-xl md:text-2xl lg:text-3xl font-semibold leading-relaxed mb-8 w-full text-left text-black"
                         >
-                            {words.map((word, wordIndex) => {
-                                // Calculate the progress threshold for each word
-                                const wordProgress = wordIndex / words.length;
-
-                                return (
-                                    <Word
-                                        key={wordIndex}
-                                        word={word}
-                                        progress={scrollYProgress}
-                                        threshold={wordProgress}
-                                    />
-                                );
-                            })}
+                            {aboutText}
                         </motion.p>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.4 }}
+                        >
+                            <Link to="/about">
+                                <Button
+                                    className="gap-2 rounded-full px-8 py-6 text-base font-bold uppercase tracking-wider shadow-lg shadow-primary/20 hover:scale-105 transition-transform bg-primary text-primary-foreground hover:bg-primary/90"
+                                >
+                                    Know More
+                                    <ArrowRight size={18} />
+                                </Button>
+                            </Link>
+                        </motion.div>
                     </div>
                 </div>
 
@@ -76,8 +74,8 @@ const AboutSection = () => {
                         transition={{ duration: 0.5, delay: 0.1 }}
                         className="bg-secondary rounded-3xl p-8 lg:p-10 flex flex-col justify-between min-h-[280px] lg:min-h-[320px]"
                     >
-                        <h3 className="text-5xl lg:text-6xl font-bold text-foreground">10+</h3>
-                        <p className="text-foreground/80 font-medium text-lg">Years of Excellence</p>
+                        <h3 className="text-5xl lg:text-6xl font-bold text-black">10+</h3>
+                        <p className="text-black/80 font-medium text-lg">Years of Excellence</p>
                     </motion.div>
 
                     {/* Card 2 - Success Rate */}
@@ -122,37 +120,6 @@ const AboutSection = () => {
                 </div>
             </div>
         </section>
-    );
-};
-
-// Word component with scroll-based color animation
-interface WordProps {
-    word: string;
-    progress: any;
-    threshold: number;
-}
-
-const Word = ({ word, progress, threshold }: WordProps) => {
-    // Transform scroll progress to opacity for this word
-    const opacity = useTransform(
-        progress,
-        [threshold, threshold + 0.02],
-        [0.3, 1]
-    );
-
-    const color = useTransform(
-        progress,
-        [threshold, threshold + 0.02],
-        ["hsl(var(--muted-foreground))", "hsl(var(--foreground))"]
-    );
-
-    return (
-        <motion.span
-            style={{ opacity, color }}
-            className="inline-block mr-[0.3em]"
-        >
-            {word}
-        </motion.span>
     );
 };
 

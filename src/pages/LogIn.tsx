@@ -30,14 +30,14 @@ const LogIn = () => {
                                 />
                             </div>
 
-                            <div className="space-y-3">
+                            {/* <div className="space-y-3">
                                 <Label className="text-base font-bold text-[#1a1a1a] ml-1">Password</Label>
                                 <Input
                                     type="password"
                                     placeholder="Enter your password"
                                     className="rounded-full border-gray-200 bg-[#f9fafb] px-8 py-7 text-lg focus:ring-primary focus:border-primary transition-all placeholder:text-gray-400"
                                 />
-                            </div>
+                            </div> */}
 
                             <Button className="w-full bg-[#FF0000] hover:bg-[#cc0000] text-white rounded-full py-8 text-lg font-bold uppercase tracking-widest mt-4 transition-all hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-black/10">
                                 Login
@@ -45,7 +45,7 @@ const LogIn = () => {
                         </form>
 
                         <p className="mt-8 text-center text-lg font-medium text-gray-500">
-                            Don't have an account? <Link to="/signup" className="text-[#2563eb] hover:underline font-semibold">Sign up</Link>
+                            Don't have an account? <Link to="/register" className="text-[#2563eb] hover:underline font-semibold">Register now</Link>
                         </p>
 
                     </div>

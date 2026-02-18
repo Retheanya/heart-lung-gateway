@@ -114,7 +114,7 @@ const HeroSection = () => {
                   </Link>
 
                   {/* Trusted By Section */}
-                  <div className="flex items-center gap-3">
+                  {/* <div className="flex items-center gap-3">
                     <div className="flex -space-x-2">
                       {avatars.map((avatar, i) => (
                         <div
@@ -133,24 +133,22 @@ const HeroSection = () => {
                       <p className="text-xs text-muted-foreground">Trusted by</p>
                       <p className="text-sm font-semibold text-foreground">500+ Professionals</p>
                     </div>
-                  </div>
+                  </div> */}
                 </motion.div>
 
                 {/* Video Testimonial Card */}
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
                   className="flex items-start gap-5 mt-8 pt-4"
                 >
-                  {/* Video Thumbnail */}
                   <div className="relative w-44 h-28 rounded-2xl overflow-hidden shrink-0 shadow-lg">
                     <img
                       src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&h=250&fit=crop"
                       alt="Video thumbnail"
                       className="w-full h-full object-cover"
                     />
-                    {/* Play/Pause Button */}
                     <button
                       onClick={() => setIsPlaying(!isPlaying)}
                       className="absolute bottom-3 left-3 w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
@@ -163,14 +161,13 @@ const HeroSection = () => {
                     </button>
                   </div>
 
-                  {/* Testimonial Quote */}
                   <div className="flex-1">
                     <p className="text-foreground/80 text-sm leading-relaxed">
                       "This certification has significantly enhanced my clinical practice and understanding of advanced heart failure management."
                     </p>
                     <p className="text-primary text-sm font-semibold mt-3">— Dr. Rajesh Kumar</p>
                   </div>
-                </motion.div>
+                </motion.div> */}
               </div>
 
               {/* Right Image Carousel */}
@@ -214,7 +211,7 @@ const HeroSection = () => {
                 </div>
 
                 {/* Stats Card - Square with scroll parallax */}
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
@@ -226,19 +223,18 @@ const HeroSection = () => {
                   <p className="text-muted-foreground text-[10px] lg:text-xs mt-1 leading-relaxed px-2">
                     satisfied with our education.
                   </p>
-                </motion.div>
+                </motion.div> */}
               </motion.div>
             </div>
           </div>
 
           {/* Partners Section - Inside hero bg */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
             className="pb-8 overflow-hidden"
           >
-            {/* Partners Title */}
             <div className="flex items-center justify-center gap-2 mb-6">
               <div className="w-2 h-2 rounded-full bg-primary"></div>
               <p className="text-primary font-medium text-sm">
@@ -246,13 +242,10 @@ const HeroSection = () => {
               </p>
             </div>
 
-            {/* Scrolling Partners Container */}
             <div className="relative">
-              {/* Gradient masks for smooth fade effect */}
               <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-hero to-transparent z-10 pointer-events-none"></div>
               <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-hero to-transparent z-10 pointer-events-none"></div>
 
-              {/* Scrolling Partners */}
               <div className="flex animate-marquee">
                 {duplicatedPartners.map((partner, index) => (
                   <div
@@ -265,7 +258,7 @@ const HeroSection = () => {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
 

@@ -9,6 +9,8 @@ import Courses from "./pages/courses";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import About from "./pages/About";
+import Register from "./pages/Register";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -18,11 +20,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/about" element={<About />} />
+          <Route path="/register" element={<Register />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/courses" element={<Courses />} />
           <Route path="*" element={<NotFound />} />

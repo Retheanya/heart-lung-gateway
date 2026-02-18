@@ -1,212 +1,130 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, User, AtSign, PhoneCall, ChevronDown, MessageSquare, Calendar } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Mail, Phone, User, ExternalLink } from "lucide-react";
 
-const infoCards = [
+interface ContactPerson {
+    name: string;
+    email?: string;
+    phone: string;
+}
+
+const contactPersons: ContactPerson[] = [
     {
-        icon: <Mail className="w-5 h-5" />,
-        label: "Email",
-        value: "support@inshltindia.org",
+        name: "Dr Sandeep Seth",
+        email: "aiimscardiology@gmail.com",
+        phone: "9650929005",
     },
     {
-        icon: <Phone className="w-5 h-5" />,
-        label: "Phone",
-        value: "+91 123 456 7890",
+        name: "Dr Dhiren Shah",
+        phone: "9825575933",
     },
     {
-        icon: <MapPin className="w-5 h-5" />,
-        label: "Location",
-        value: "New Delhi, India",
+        name: "Dr Ravi Kumar",
+        phone: "9840955600",
     },
 ];
 
 const ContactSection = () => {
     return (
-        <section id="register" className="py-20 lg:py-32 bg-white">
-            <div className="container mx-auto px-4 lg:px-8">
-                {/* Top Header Section */}
-                <div id="contact" className="flex flex-col lg:flex-row lg:items-center justify-between gap-10 mb-12">
-                    <div className="max-w-xl">
+        <section id="contact" className="py-20 lg:py-32 bg-white">
+            <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
+                {/* Header Section */}
+                <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="inline-block mb-4"
+                    >
+                        <span className="text-primary font-bold uppercase tracking-[0.2em] text-xs">
+                            Get In Touch
+                        </span>
+                    </motion.div>
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="text-3xl md:text-5xl font-bold text-[#1a1a1a] mb-6 tracking-tight"
+                    >
+                        Contact Information
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="text-gray-500 text-lg font-medium"
+                    >
+                        Reach out to our specialists or our support team for any queries regarding heart and lung transplantation.
+                    </motion.p>
+                </div>
+
+                <div className="grid lg:grid-cols-12 gap-12 items-start">
+                    {/* Primary Support Card */}
+                    <div className="lg:col-span-12 mb-12">
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            className="inline-block mb-4"
+                            className="bg-[#fcfcfc] border border-gray-100 rounded-[2rem] p-8 lg:p-12 text-center shadow-sm"
                         >
-                            <span className="bg-primary/10 px-4 py-1.5 rounded-full text-primary text-xs font-bold uppercase tracking-wider">
-                                Get In Touch
-                            </span>
+                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-6">
+                                <Mail className="w-8 h-8" />
+                            </div>
+                            <h3 className="text-xl font-bold text-[#1a1a1a] mb-2">General Support</h3>
+                            <a
+                                href="mailto:support_INHFT@gmail.com"
+                                className="text-2xl lg:text-3xl font-extrabold text-primary hover:opacity-80 transition-opacity underline decoration-2 underline-offset-8"
+                            >
+                                support_INHFT@gmail.com
+                            </a>
                         </motion.div>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.1 }}
-                            className="text-2xl md:text-3xl font-bold text-foreground leading-tight"
-                        >
-                            Ready to start your journey in
-                            transplantation medicine?
-                        </motion.h2>
                     </div>
 
-                    <div className="flex flex-row gap-4 overflow-x-auto pb-4 lg:pb-0 lg:flex-nowrap scrollbar-hide">
-                        {infoCards.map((card, index) => (
+                    {/* Specialist Contact Grid */}
+                    <div className="lg:col-span-12 grid md:grid-cols-3 gap-6">
+                        {contactPersons.map((person, index) => (
                             <motion.div
-                                key={card.label}
-                                initial={{ opacity: 0, y: 20 }}
+                                key={person.name}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: 0.2 + index * 0.1 }}
-                                className="bg-white border border-border/50 rounded-2xl p-5 shadow-sm min-w-[240px] flex-shrink-0"
+                                transition={{ delay: 0.1 * index }}
+                                className="bg-white border border-gray-100 rounded-3xl p-8 hover:border-primary/20 transition-all hover:shadow-xl hover:shadow-primary/5 group"
                             >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                                        {card.icon}
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-[#1a1a1a] group-hover:bg-primary group-hover:text-white transition-colors">
+                                        <User className="w-6 h-6" />
                                     </div>
-                                    <div>
-                                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary mb-0.5">{card.label}</h4>
-                                        <p className="text-foreground text-sm font-semibold whitespace-nowrap">{card.value}</p>
+                                    <h4 className="text-lg font-bold text-[#1a1a1a]">{person.name}</h4>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3 text-gray-500 font-medium hover:text-primary transition-colors cursor-pointer group/item">
+                                        <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover/item:bg-primary/10">
+                                            <Phone className="w-4 h-4" />
+                                        </div>
+                                        <a href={`tel:${person.phone}`} className="text-[15px]">{person.phone}</a>
                                     </div>
+
+                                    {person.email && (
+                                        <div className="flex items-center gap-3 text-gray-500 font-medium hover:text-primary transition-colors cursor-pointer group/item">
+                                            <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center group-hover/item:bg-primary/10">
+                                                <Mail className="w-4 h-4" />
+                                            </div>
+                                            <a href={`mailto:${person.email}`} className="text-[15px] break-all">{person.email}</a>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="mt-8 pt-6 border-t border-gray-50">
+                                    <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1a1a1a] hover:text-primary transition-colors">
+                                        Contact details <ExternalLink size={12} />
+                                    </button>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
-                </div>
-
-                <div className="h-px w-full bg-border/50 mb-16" />
-
-                {/* Main Content Grid */}
-                <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-                    {/* Left Column - Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="space-y-8"
-                    >
-                        <div className="grid md:grid-cols-2 gap-6">
-                            {/* Name field */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-primary px-1">Name*</label>
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        placeholder="Enter your name"
-                                        className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-                                    />
-                                    <User className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                                </div>
-                            </div>
-
-                            {/* Email field */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-primary px-1">Email Address</label>
-                                <div className="relative">
-                                    <input
-                                        type="email"
-                                        placeholder="Enter email address"
-                                        className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-                                    />
-                                    <AtSign className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                                </div>
-                            </div>
-
-                            {/* Phone field */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-primary px-1">Phone*</label>
-                                <div className="relative">
-                                    <input
-                                        type="tel"
-                                        placeholder="Phone number"
-                                        className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-                                    />
-                                    <PhoneCall className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                                </div>
-                            </div>
-
-                            {/* Schedule field */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-primary px-1">Schedule*</label>
-                                <div className="relative">
-                                    <select className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none cursor-pointer">
-                                        <option>Select Subject</option>
-                                        <option>Heart Failure Course</option>
-                                        <option>Transplantation Course</option>
-                                        <option>General Inquiry</option>
-                                    </select>
-                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50 pointer-events-none" />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Message field */}
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-primary px-1">Message*</label>
-                            <div className="relative">
-                                <textarea
-                                    rows={4}
-                                    placeholder="Write Message..."
-                                    className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-none"
-                                />
-                                <MessageSquare className="absolute right-4 top-6 w-5 h-5 text-muted-foreground/50" />
-                            </div>
-                        </div>
-
-                        <Button size="lg" className="rounded-full bg-primary hover:bg-primary/90 text-white px-10 h-14 text-base font-bold transition-all hover:scale-105">
-                            Contact Now
-                        </Button>
-                    </motion.div>
-
-                    {/* Right Column - Image & Hours */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="relative"
-                    >
-                        {/* <div className="mb-6 text-muted-foreground leading-relaxed font-medium">
-                            If you or a loved one are seeking advanced certification in cardiac and lung transplantation. Contact us today to learn more about our upcoming programs.
-                        </div> */}
-
-                        <div className="relative rounded-[2.5rem] overflow-hidden group shadow-2xl">
-                            <img
-                                src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&h=800&fit=crop"
-                                alt="Medical Consultation"
-                                className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-
-                            {/* Opening Hours Overlay Card */}
-                            <div className="absolute inset-x-0 bottom-0 p-6">
-                                <motion.div
-                                    initial={{ opacity: 0, y: 40 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.3 }}
-                                    className="bg-primary/90 backdrop-blur-md rounded-3xl p-8 text-white"
-                                >
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h3 className="text-xl font-bold">Office Hours</h3>
-                                        <Calendar className="w-6 h-6 text-white/70" />
-                                    </div>
-
-                                    <div className="space-y-4 font-medium">
-                                        <div className="flex justify-between items-center border-b border-white/20 pb-3">
-                                            <span>Monday - Friday</span>
-                                            <span>10:00 - 18:00</span>
-                                        </div>
-                                        <div className="flex justify-between items-center border-b border-white/20 pb-3">
-                                            <span>Saturday</span>
-                                            <span>10:00 - 12:00</span>
-                                        </div>
-                                        <div className="flex justify-between items-center">
-                                            <span>Sunday</span>
-                                            <span>12:00 - 15:00</span>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            </div>
-                        </div>
-                    </motion.div>
                 </div>
             </div>
         </section>

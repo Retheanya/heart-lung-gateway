@@ -36,7 +36,7 @@ const FAQ = () => {
                 <div className="flex flex-col items-start space-y-6">
                     {/* BADGE */}
                     <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-block">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold uppercase tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
                             <HelpCircle size={16} className="animate-pulse" />
                             FAQ's
                         </span>
@@ -74,7 +74,7 @@ const FAQ = () => {
 
                             <a href="#contact" className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all duration-300 hover:gap-5 shadow-lg shadow-primary/20">
                                 <ChevronsRight size={18} />
-                                <span className="text-sm font-bold uppercase tracking-wide">Contact Us Now</span>
+                                <span className="text-sm font-bold tracking-wide">Contact Us Now</span>
                             </a>
                         </div>
                     </div>

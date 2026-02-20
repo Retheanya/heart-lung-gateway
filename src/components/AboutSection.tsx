@@ -46,7 +46,7 @@ const AboutSection = () => {
                     <div className="flex flex-col items-start relative z-10">
                         {/* About Us Badge */}
                         <motion.div variants={itemVariants} className="inline-block mb-6">
-                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold uppercase tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
                                 <Info size={16} className="animate-pulse" />
                                 About Us
                             </span>

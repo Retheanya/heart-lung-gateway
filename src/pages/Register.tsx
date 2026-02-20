@@ -80,7 +80,7 @@ const Register = () => {
                                     viewport={{ once: true }}
                                     className="inline-block mb-4"
                                 >
-                                    <span className="bg-primary/10 px-4 py-1.5 rounded-full text-primary text-xs font-bold uppercase tracking-wider">
+                                    <span className="bg-primary/10 px-4 py-1.5 rounded-full text-primary text-sm font-bold tracking-wider">
                                         Registration
                                     </span>
                                 </motion.div>
@@ -111,7 +111,7 @@ const Register = () => {
                                                 {card.icon}
                                             </div>
                                             <div className="min-w-0">
-                                                <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary mb-0.5">{card.label}</h4>
+                                                <h4 className="text-[10px] font-bold tracking-widest text-primary mb-0.5">{card.label}</h4>
                                                 <p className="text-foreground text-sm font-semibold truncate">{card.value}</p>
                                             </div>
                                         </div>

@@ -9,7 +9,7 @@ const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 ref={ref}
                 className={cn(
                     "group inline-flex items-center justify-center gap-2 rounded-full",
-                    "px-8 py-6 text-base font-bold uppercase tracking-wider", // Matches Explore button size/padding
+                    "px-8 py-6 text-base font-bold tracking-wider", // Matches Explore button size/padding
                     "bg-primary text-primary-foreground hover:bg-primary/90",
                     "shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30",
                     "transition-all duration-300 ease-out",

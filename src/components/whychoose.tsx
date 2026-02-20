@@ -40,7 +40,7 @@ const WhyChooseUs = () => {
 
                     {/* BADGE */}
                     <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-block mb-5">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold uppercase tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
                             <Award size={16} className="animate-pulse" />
                             Why Choose INSHLT Learning
                         </span>

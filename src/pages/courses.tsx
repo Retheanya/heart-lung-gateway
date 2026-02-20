@@ -138,7 +138,7 @@ const Courses = () => {
 
                           {/* Badge & Rating Row */}
                           <div className="flex flex-wrap items-center gap-4">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/50 border border-secondary text-xs sm:text-sm font-bold text-primary tracking-wide uppercase">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/50 border border-secondary text-xs sm:text-sm font-bold text-primary tracking-wide">
                               <Award className="w-4 h-4" strokeWidth={2.5} />
                               {course.badge}
                             </span>
@@ -205,7 +205,7 @@ const Courses = () => {
                         <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-end">
                           <Link
                             to="/course-detail"
-                            className="w-full sm:w-auto px-10 py-4 rounded-full bg-primary text-white font-bold text-sm tracking-wide shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all duration-200 uppercase text-center"
+                            className="w-full sm:w-auto px-10 py-4 rounded-full bg-primary text-white font-bold text-sm tracking-wide shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all duration-200 text-center"
                           >
                             Enroll Now
                           </Link>

@@ -123,7 +123,7 @@ const CourseDetail = () => {
 
                     {/* Large Background Text */}
                     <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                        <h1 className="text-[12vw] font-black text-white/[0.05] tracking-tighter leading-none select-none uppercase">
+                        <h1 className="text-[12vw] font-black text-white/[0.05] tracking-tighter leading-none select-none">
                             DETAILS
                         </h1>
                     </div>

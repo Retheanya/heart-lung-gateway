@@ -67,7 +67,7 @@ const Header = () => {
           <div className="w-px h-6 bg-border" />
           <Link to="/login">
             <Button
-              className="gap-2 rounded-full px-8 py-6 text-base font-bold uppercase tracking-wider shadow-lg shadow-primary/20 hover:scale-105 transition-transform bg-primary text-primary-foreground hover:bg-primary/90"
+              className="gap-2 rounded-full px-8 py-6 text-base font-bold tracking-wider shadow-lg shadow-primary/20 hover:scale-105 transition-transform bg-primary text-primary-foreground hover:bg-primary/90"
             >
               <LogIn size={18} />
               Portal Login
@@ -121,7 +121,7 @@ const Header = () => {
             })}
             <Link to="/login" className="w-full">
               <Button
-                className="mt-3 w-full gap-2 rounded-full px-8 py-6 text-base font-bold uppercase tracking-wider shadow-lg shadow-primary/20 hover:scale-105 transition-transform bg-primary text-primary-foreground hover:bg-primary/90"
+                className="mt-3 w-full gap-2 rounded-full px-8 py-6 text-base font-bold tracking-wider shadow-lg shadow-primary/20 hover:scale-105 transition-transform bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 <LogIn size={18} />
                 Portal Login

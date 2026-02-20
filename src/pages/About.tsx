@@ -10,7 +10,7 @@ interface BadgeProps {
 }
 
 const Badge = ({ icon: Icon, text }: BadgeProps) => (
-    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-red-600 text-xs font-semibold tracking-wide uppercase hover:bg-red-100 transition duration-300">
+    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-red-600 text-sm font-semibold tracking-wide hover:bg-red-100 transition duration-300">
         <Icon size={16} className="text-red-500" />
         {text}
     </div>
@@ -108,7 +108,7 @@ const About = () => {
                         >
                             <motion.span
                                 variants={fadeInUp}
-                                className="inline-flex items-center gap-2 text-red-600 font-bold uppercase tracking-[0.2em] text-[10px] mb-2 px-3 py-1 rounded-full bg-red-50/50 border border-red-100"
+                                className="inline-flex items-center gap-2 text-red-600 font-bold tracking-wider text-sm mb-2 px-3 py-1 rounded-full bg-red-50/50 border border-red-100"
                             >
                                 <Activity size={12} />
                                 About The Society

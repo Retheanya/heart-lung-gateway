@@ -14,23 +14,25 @@ import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 
 const coursesData = [
-  {
-    id: 1,
-    title: "Master UI/UX Design From Scratch",
-    instructor: "Emma Harrison",
-    instructorRole: "Senior Product Designer @ Google",
-    instructorImg: "https://i.pravatar.cc/150?u=emma",
-    rating: 4.9,
-    reviews: "6,234",
-    badge: "Top Rated",
-    image: uxiImage,
-    skills: [
-      { name: "User research & personas", icon: Users },
-      { name: "Figma & Sketch mastery", icon: Figma },
-      { name: "Interactive prototyping", icon: MonitorPlay },
-      { name: "Design systems", icon: Layout },
-    ],
-  },
+  /*
+    {
+      id: 1,
+      title: "Master UI/UX Design From Scratch",
+      instructor: "Emma Harrison",
+      instructorRole: "Senior Product Designer @ Google",
+      instructorImg: "https://i.pravatar.cc/150?u=emma",
+      rating: 4.9,
+      reviews: "6,234",
+      badge: "Top Rated",
+      image: uxiImage,
+      skills: [
+        { name: "User research & personas", icon: Users },
+        { name: "Figma & Sketch mastery", icon: Figma },
+        { name: "Interactive prototyping", icon: MonitorPlay },
+        { name: "Design systems", icon: Layout },
+      ],
+    },
+  */
   {
     id: 2,
     title: "Advanced Heart Transplant Protocols",

@@ -1,123 +1,114 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Info } from "lucide-react";
+import { PrimaryButton } from "@/components/ui/primary-button";
 
 const AboutSection = () => {
     const sectionRef = useRef<HTMLDivElement>(null);
 
-    // About text content
-    const aboutText = "INSHLT is the Indian Society for Heart and Lung Transplantation, a professional medical organization dedicated to advancing heart and lung transplant medicine in India.";
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+        visible: {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            transition: { type: "spring", stiffness: 50, damping: 20 } as const,
+        },
+    };
 
     return (
         <section
             id="about"
             ref={sectionRef}
-            className="bg-white py-16 lg:py-24 px-4 lg:px-8"
+            className="bg-white pt-16 lg:pt-24 pb-8 lg:pb-12 overflow-hidden"
         >
-            <div className="container mx-auto">
-                {/* Top Section - Badge and Text */}
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 mb-12 lg:mb-16 items-start">
-                    {/* About Us Badge */}
-                    <div className="lg:col-span-3">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5 }}
-                            className="inline-block"
-                        >
-                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 text-primary text-sm font-medium">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="lg:grid lg:grid-cols-2 lg:gap-16 items-center"
+                >
+                    {/* Left Column: Content */}
+                    <div className="flex flex-col items-start relative z-10">
+                        {/* About Us Badge */}
+                        <motion.div variants={itemVariants} className="inline-block mb-6">
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold uppercase tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                                <Info size={16} className="animate-pulse" />
                                 About Us
                             </span>
                         </motion.div>
-                    </div>
 
-                    {/* Text and Button */}
-                    <div className="lg:col-span-9 flex flex-col items-end">
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="text-xl md:text-2xl lg:text-3xl font-semibold leading-relaxed mb-8 w-full text-left text-black"
+                        {/* Heading */}
+                        <motion.h2
+                            variants={itemVariants}
+                            className="text-4xl md:text-5xl font-semibold tracking-tight leading-tight text-foreground mb-6 max-w-xl text-left"
                         >
-                            {aboutText}
+                            INSHLT is the Indian Society for Heart and Lung Transplantation
+                        </motion.h2>
+
+                        {/* Paragraph */}
+                        <motion.p
+                            variants={itemVariants}
+                            className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl text-left"
+                        >
+                            A professional medical organization dedicated to advancing heart and lung transplant medicine in India. We verify the quality of care and promote scientific research to improve patient outcomes.
                         </motion.p>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
-                        >
+                        {/* Button */}
+                        <motion.div variants={itemVariants}>
                             <Link to="/about">
-                                <Button
-                                    className="gap-2 rounded-full px-8 py-6 text-base font-bold uppercase tracking-wider shadow-lg shadow-primary/20 hover:scale-105 transition-transform bg-primary text-primary-foreground hover:bg-primary/90"
+                                <PrimaryButton
+                                    className="gap-2 px-12"
                                 >
                                     Know More
-                                    <ArrowRight size={18} />
-                                </Button>
+                                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                </PrimaryButton>
                             </Link>
                         </motion.div>
                     </div>
-                </div>
 
-                {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
-                    {/* Card 1 - Years Experience */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="bg-secondary rounded-3xl p-8 lg:p-10 flex flex-col justify-between min-h-[280px] lg:min-h-[320px]"
-                    >
-                        <h3 className="text-5xl lg:text-6xl font-bold text-black">10+</h3>
-                        <p className="text-black/80 font-medium text-lg">Years of Excellence</p>
-                    </motion.div>
-
-                    {/* Card 2 - Success Rate */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="bg-primary rounded-3xl p-8 lg:p-10 flex flex-col justify-between min-h-[280px] lg:min-h-[320px]"
-                    >
-                        <h3 className="text-5xl lg:text-6xl font-bold text-primary-foreground">95%</h3>
-                        <p className="text-primary-foreground/90 font-medium text-lg">Course Completion</p>
-                    </motion.div>
-
-                    {/* Card 3 - Image Card with Stats */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className="relative rounded-3xl overflow-hidden min-h-[280px] lg:min-h-[320px]"
-                    >
-                        <img
-                            src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=400&fit=crop"
-                            alt="Medical professional"
-                            className="absolute inset-0 w-full h-full object-cover"
-                        />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-
-                        {/* Content */}
-                        <div className="relative h-full flex flex-col justify-between p-8 lg:p-10">
-                            <h3 className="text-5xl lg:text-6xl font-bold text-white">500+</h3>
-                            <div>
-                                <p className="text-white font-semibold text-lg mb-2">Certified Professionals</p>
-                                <p className="text-white/80 text-sm leading-relaxed">
-                                    We take the time to understand your learning goals & create a personalized education plan.
-                                </p>
-                            </div>
+                    {/* Right Column: Layered Medical Composition */}
+                    <div className="mt-12 lg:mt-0 relative flex justify-center lg:justify-end">
+                        <div className="relative w-full max-w-lg">
+                            {/* Main Image with Giggle (Float) Animation */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.96, filter: "blur(8px)" }}
+                                whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                                animate={{ y: [0, -15, 0] }}
+                                transition={{
+                                    opacity: { duration: 0.8 },
+                                    scale: { duration: 0.8 },
+                                    y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                                }}
+                                viewport={{ once: true }}
+                                whileHover={{ y: -25, scale: 1.02, transition: { duration: 0.4 } }}
+                                className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-red-900/10 group bg-white"
+                            >
+                                <img
+                                    src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1200"
+                                    alt="INSHLT Professional Surgery Team"
+                                    className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
+                                />
+                                {/* Soft overlay on hover */}
+                                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
+                            </motion.div>
                         </div>
-                    </motion.div>
-                </div>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );

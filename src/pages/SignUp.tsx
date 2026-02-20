@@ -1,13 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import signupHero from "@/assets/signupHero.png";
+import { useState } from "react";
+import { register } from "@/api/auth";
+import { toast } from "sonner";
 
 
 const SignUp = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSignup = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await register({ name, email, password });
+            toast.success("Account created successfully! Please login.");
+            navigate("/login");
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || "Signup failed");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="min-h-screen flex flex-col bg-white selection:bg-primary selection:text-white font-inter">
             <Header />
@@ -21,12 +44,15 @@ const SignUp = () => {
                             Create an account
                         </h1>
 
-                        <form className="space-y-6 lg:space-y-8" onSubmit={(e) => e.preventDefault()}>
+                        <form className="space-y-6 lg:space-y-8" onSubmit={handleSignup}>
                             <div className="space-y-3">
                                 <Label className="text-base font-bold text-[#1a1a1a] ml-1">Full Name</Label>
                                 <Input
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     placeholder="Enter your Full Name"
                                     className="rounded-full border-gray-200 bg-[#f9fafb] px-8 py-7 text-lg focus:ring-primary focus:border-primary transition-all placeholder:text-gray-400"
+                                    required
                                 />
                             </div>
 
@@ -34,8 +60,11 @@ const SignUp = () => {
                                 <Label className="text-base font-bold text-[#1a1a1a] ml-1">Email address</Label>
                                 <Input
                                     type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter your email address"
                                     className="rounded-full border-gray-200 bg-[#f9fafb] px-8 py-7 text-lg focus:ring-primary focus:border-primary transition-all placeholder:text-gray-400"
+                                    required
                                 />
                             </div>
 
@@ -43,13 +72,19 @@ const SignUp = () => {
                                 <Label className="text-base font-bold text-[#1a1a1a] ml-1">Password</Label>
                                 <Input
                                     type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     placeholder="Enter your password"
                                     className="rounded-full border-gray-200 bg-[#f9fafb] px-8 py-7 text-lg focus:ring-primary focus:border-primary transition-all placeholder:text-gray-400"
+                                    required
                                 />
                             </div>
 
-                            <Button className="w-full bg-[#FF0000] hover:bg-[#cc0000] text-white rounded-full py-8 text-lg font-bold uppercase tracking-widest mt-4 transition-all hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-black/10">
-                                Signup
+                            <Button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-[#FF0000] hover:bg-[#cc0000] text-white rounded-full py-8 text-lg font-bold uppercase tracking-widest mt-4 transition-all hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-black/10">
+                                {loading ? "Creating Account..." : "Signup"}
                             </Button>
                         </form>
 

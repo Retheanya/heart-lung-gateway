@@ -6,18 +6,18 @@ const Footer = () => {
     const contactPersons = [
         {
             name: "Dr Sandeep Seth",
-            detail: "aiimscardiology@gmail.com",
-            icon: <Mail size={14} />
+            email: "aiimscardiology@gmail.com",
+            phone: "9650929005",
         },
         {
             name: "Dr Dhiren Shah",
-            detail: "9825575933",
-            icon: <Phone size={14} />
+            email: "",
+            phone: "9825575933",
         },
         {
             name: "Dr Ravi Kumar",
-            detail: "9840955600",
-            icon: <Phone size={14} />
+            email: "",
+            phone: "9840955600",
         }
     ];
 
@@ -53,10 +53,16 @@ const Footer = () => {
                         <div className="space-y-6">
                             {contactPersons.map((p, i) => (
                                 <div key={i} className="group cursor-default">
-                                    <h4 className="font-bold text-[16px] mb-1 group-hover:text-primary transition-colors">{p.name}</h4>
-                                    <div className="flex items-center gap-2 text-white/40 group-hover:text-white/60 transition-colors text-sm font-medium">
-                                        <span className="text-primary">{p.icon}</span>
-                                        {p.detail}
+                                    <h4 className="font-bold text-[16px] mb-2 group-hover:text-primary transition-colors">{p.name}</h4>
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2 text-white/40 group-hover:text-white/60 transition-colors text-sm font-medium">
+                                            <Mail size={14} className="text-primary" />
+                                            {p.email}
+                                        </div>
+                                        <div className="flex items-center gap-2 text-white/40 group-hover:text-white/60 transition-colors text-sm font-medium">
+                                            <Phone size={14} className="text-primary" />
+                                            {p.phone}
+                                        </div>
                                     </div>
                                 </div>
                             ))}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo.png";
@@ -66,7 +66,10 @@ const Header = () => {
         <div className="hidden lg:flex items-center gap-3">
           <div className="w-px h-6 bg-border" />
           <Link to="/login">
-            <Button variant="hero" size="lg" className="gap-2 text-sm font-medium px-6 py-5 rounded-full hover:scale-105 transition-transform">
+            <Button
+              className="gap-2 rounded-full px-8 py-6 text-base font-bold uppercase tracking-wider shadow-lg shadow-primary/20 hover:scale-105 transition-transform bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              <LogIn size={18} />
               Portal Login
             </Button>
           </Link>
@@ -117,7 +120,10 @@ const Header = () => {
               );
             })}
             <Link to="/login" className="w-full">
-              <Button variant="hero" size="lg" className="mt-3 w-full">
+              <Button
+                className="mt-3 w-full gap-2 rounded-full px-8 py-6 text-base font-bold uppercase tracking-wider shadow-lg shadow-primary/20 hover:scale-105 transition-transform bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                <LogIn size={18} />
                 Portal Login
               </Button>
             </Link>

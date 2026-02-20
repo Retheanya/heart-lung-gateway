@@ -1,4 +1,4 @@
-import { Plus, Minus, ChevronsRight } from "lucide-react";
+import { Plus, Minus, ChevronsRight, HelpCircle } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -35,25 +35,12 @@ const FAQ = () => {
                 {/* LEFT CONTENT */}
                 <div className="flex flex-col items-start space-y-6">
                     {/* BADGE */}
-                    <span
-                        className="inline-flex items-center px-4 py-1 text-sm font-semibold rounded-full"
-                        style={{
-                            color: "hsl(var(--primary))",
-                            background: `
-                                linear-gradient(#FFFFFF, #FFFFFF) padding-box,
-                                linear-gradient(
-                                    90deg,
-                                    hsl(var(--primary)) 0%,
-                                    hsl(var(--primary)) 65%,
-                                    hsla(var(--primary), 0.3) 85%,
-                                    hsla(var(--primary), 0) 100%
-                                ) border-box
-                            `,
-                            border: "1px solid transparent",
-                        }}
-                    >
-                        FAQ's
-                    </span>
+                    <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-block">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold uppercase tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                            <HelpCircle size={16} className="animate-pulse" />
+                            FAQ's
+                        </span>
+                    </motion.div>
 
                     {/* HEADING */}
                     <div className="space-y-4">
@@ -85,10 +72,10 @@ const FAQ = () => {
                                 </p>
                             </div>
 
-                            <button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all duration-300 hover:gap-5 shadow-lg shadow-primary/20">
+                            <a href="#contact" className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all duration-300 hover:gap-5 shadow-lg shadow-primary/20">
                                 <ChevronsRight size={18} />
-                                <span className="text-sm font-bold">Contact Us Now</span>
-                            </button>
+                                <span className="text-sm font-bold uppercase tracking-wide">Contact Us Now</span>
+                            </a>
                         </div>
                     </div>
                 </div>

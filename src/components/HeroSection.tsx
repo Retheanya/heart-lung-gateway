@@ -1,6 +1,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronRight, Play, Pause } from "lucide-react";
+import { ArrowRight, Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PrimaryButton } from "@/components/ui/primary-button";
+import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import { useState, useEffect, useRef } from "react";
@@ -58,25 +60,26 @@ const HeroSection = () => {
       <div className="mx-4 lg:mx-8 my-4">
         <div className="bg-hero rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden">
           <div className="container mx-auto px-6 lg:px-12 py-12 lg:py-16">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <div className="grid lg:grid-cols-2 gap-4 lg:gap-6 items-center">
               {/* Left Content */}
-              <div className="space-y-6 pt-4">
+              <div className="space-y-8 h-full flex flex-col justify-center">
                 {/* Intro Text */}
-                <motion.p
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="text-primary font-medium text-base italic"
                 >
-                  Welcome to INSHLT Learning,
-                </motion.p>
+                  <Badge variant="secondary" className="px-3 py-1 text-sm font-medium text-primary bg-primary/10 border-primary/20 hover:bg-primary/20 transition-colors">
+                    Welcome to INSHLT Learning
+                  </Badge>
+                </motion.div>
 
                 {/* Main Heading */}
                 <motion.h1
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] text-foreground tracking-tight"
+                  className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-foreground tracking-normal"
                 >
                   Advance Your Career in
                   <br />
@@ -90,7 +93,7 @@ const HeroSection = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="text-muted-foreground text-base leading-relaxed max-w-md"
+                  className="text-muted-foreground text-lg leading-relaxed max-w-xl"
                 >
                   Industry-led certification programs with live expert sessions, clinical insights, assessments, and recognized certification from INSHLT India.
                 </motion.p>
@@ -103,14 +106,10 @@ const HeroSection = () => {
                   className="flex flex-wrap items-center gap-6"
                 >
                   <Link to="/courses">
-                    <Button
-                      variant="hero"
-                      size="lg"
-                      className="gap-2 text-sm font-medium px-6 py-5 rounded-full hover:scale-105 transition-transform"
-                    >
-                      <ChevronRight size={16} />
+                    <PrimaryButton className="gap-2">
                       Explore Courses
-                    </Button>
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </PrimaryButton>
                   </Link>
 
                   {/* Trusted By Section */}

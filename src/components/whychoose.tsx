@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { Heart, Award } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -39,25 +39,12 @@ const WhyChooseUs = () => {
                 <div className="flex flex-col items-start text-left">
 
                     {/* BADGE */}
-                    <span
-                        className="mb-5 inline-flex items-center px-4 py-1 text-sm font-semibold rounded-full"
-                        style={{
-                            color: "hsl(var(--primary))",
-                            background: `
-                linear-gradient(#FFFFFF, #FFFFFF) padding-box,
-                linear-gradient(
-                  90deg,
-                  hsl(var(--primary)) 0%,
-                  hsl(var(--primary)) 65%,
-                  hsla(var(--primary), 0.3) 85%,
-                  hsla(var(--primary), 0) 100%
-                ) border-box
-              `,
-                            border: "1px solid transparent",
-                        }}
-                    >
-                        Why Choose INSHLT Learning
-                    </span>
+                    <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-block mb-5">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold uppercase tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                            <Award size={16} className="animate-pulse" />
+                            Why Choose INSHLT Learning
+                        </span>
+                    </motion.div>
 
                     {/* HEADING */}
                     <h2 className="text-[38px] lg:text-[42px] leading-[1.15] font-bold text-[#111827] mb-4 font-display tracking-tight">

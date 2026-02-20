@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, User, AtSign, PhoneCall, ChevronDown, MessageSquare, Calendar } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Mail, Phone, MapPin, User, AtSign, PhoneCall, ChevronDown, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useState } from "react";
+import { register } from "@/api/auth";
+import { toast } from "sonner";
 
 const infoCards = [
     {
@@ -24,6 +27,44 @@ const infoCards = [
 ];
 
 const Register = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [course, setCourse] = useState("Heart Failure Course");
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!name || !email || !phone) {
+            toast.error("Please fill in all required fields");
+            return;
+        }
+
+        setLoading(true);
+        // Using a temporary password since the backend model currently requires it 
+        // until we fully migrate registration to OTP as well
+        const promise = register({ name, email, phone, course, password: "password123" });
+
+        toast.promise(promise, {
+            loading: 'Creating your profile...',
+            success: (data) => {
+                navigate("/login");
+                return `Account created successfully! Welcome to INSHLT, ${data.name}.`;
+            },
+            error: (err) => err.response?.data?.message || "Registration failed. Please try again."
+        });
+
+        try {
+            await promise;
+        } catch (error) {
+            // Handled by toast
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="min-h-screen flex flex-col bg-white">
             <Header />
@@ -90,15 +131,18 @@ const Register = () => {
                                 viewport={{ once: true }}
                                 className="space-y-8"
                             >
-                                <div className="grid md:grid-cols-2 gap-6">
+                                <form onSubmit={handleRegister} className="grid md:grid-cols-2 gap-6">
                                     {/* Name field */}
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-primary px-1">Name*</label>
                                         <div className="relative">
                                             <input
                                                 type="text"
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)}
                                                 placeholder="Enter your name"
                                                 className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                                                required
                                             />
                                             <User className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
                                         </div>
@@ -106,12 +150,15 @@ const Register = () => {
 
                                     {/* Email field */}
                                     <div className="space-y-2">
-                                        <label className="text-sm font-bold text-primary px-1">Email Address</label>
+                                        <label className="text-sm font-bold text-primary px-1">Email Address*</label>
                                         <div className="relative">
                                             <input
                                                 type="email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
                                                 placeholder="Enter email address"
                                                 className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                                                required
                                             />
                                             <AtSign className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
                                         </div>
@@ -123,8 +170,11 @@ const Register = () => {
                                         <div className="relative">
                                             <input
                                                 type="tel"
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)}
                                                 placeholder="Phone number"
                                                 className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                                                required
                                             />
                                             <PhoneCall className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
                                         </div>
@@ -134,39 +184,35 @@ const Register = () => {
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-primary px-1">Course Selection*</label>
                                         <div className="relative">
-                                            <select className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none cursor-pointer">
-                                                <option>Select Subject</option>
-                                                <option>Heart Failure Course</option>
-                                                <option>Transplantation Course</option>
-                                                <option>General Inquiry</option>
+                                            <select
+                                                value={course}
+                                                onChange={(e) => setCourse(e.target.value)}
+                                                className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none cursor-pointer"
+                                                required
+                                            >
+                                                <option value="Heart Failure Course">Heart Failure Course</option>
+                                                <option value="Transplantation Course">Transplantation Course</option>
+                                                <option value="General Inquiry">General Inquiry</option>
                                             </select>
                                             <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50 pointer-events-none" />
                                         </div>
                                     </div>
-                                </div>
 
-                                {/* Message field - Commented Out */}
-                                {/* <div className="space-y-2">
-                                    <label className="text-sm font-bold text-primary px-1">Message*</label>
-                                    <div className="relative">
-                                        <textarea
-                                            rows={4}
-                                            placeholder="Write Message..."
-                                            className="w-full bg-[#fafafa] border-none rounded-2xl p-4 pr-12 text-foreground focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-none"
-                                        />
-                                        <MessageSquare className="absolute right-4 top-6 w-5 h-5 text-muted-foreground/50" />
+                                    <div className="md:col-span-2 flex flex-col items-center pt-4">
+                                        <Button
+                                            type="submit"
+                                            disabled={loading}
+                                            size="lg"
+                                            className="rounded-full bg-primary hover:bg-primary/90 text-white px-10 h-14 text-base font-bold transition-all hover:scale-105"
+                                        >
+                                            {loading ? "Processing..." : "Register Now"}
+                                        </Button>
+
+                                        <p className="mt-8 text-center text-lg font-medium text-gray-500">
+                                            Already have an account? <Link to="/login" className="text-[#2563eb] hover:underline font-semibold">Login</Link>
+                                        </p>
                                     </div>
-                                </div> */}
-
-                                <div className="flex flex-col items-center pt-4">
-                                    <Button size="lg" className="rounded-full bg-primary hover:bg-primary/90 text-white px-10 h-14 text-base font-bold transition-all hover:scale-105">
-                                        Register Now
-                                    </Button>
-
-                                    <p className="mt-8 text-center text-lg font-medium text-gray-500">
-                                        Already have an account? <Link to="/login" className="text-[#2563eb] hover:underline font-semibold">Login</Link>
-                                    </p>
-                                </div>
+                                </form>
                             </motion.div>
 
                             {/* Right Column - Image & Hours */}

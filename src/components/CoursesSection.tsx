@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
+import { BookOpen } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 
@@ -127,7 +128,7 @@ const CoursesSection = () => {
     });
 
     return (
-        <section id="courses" className="bg-hero/30 py-20 lg:py-32">
+        <section id="courses" className="bg-hero/30 pt-20 lg:pt-32 pb-10 lg:pb-16">
             <div className="container mx-auto px-4 mb-20">
                 <div className="text-center space-y-4 max-w-3xl mx-auto">
                     <motion.div
@@ -136,7 +137,8 @@ const CoursesSection = () => {
                         viewport={{ once: true }}
                         className="inline-block"
                     >
-                        <span className="bg-white px-4 py-1.5 rounded-full border border-primary/30 text-primary text-sm font-medium">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold uppercase tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                            <BookOpen size={16} className="animate-pulse" />
                             Featured Courses
                         </span>
                     </motion.div>

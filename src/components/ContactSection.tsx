@@ -114,7 +114,7 @@ const ContactSection = () => {
                     {/* 1. Header Section */}
                     <div className="lg:col-span-5 flex flex-col justify-center">
                         <motion.div variants={itemVariants} className="space-y-4 mb-8 lg:mb-0">
-                            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+                            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-wider">
                                 <Mail size={14} />
                                 Get In Touch
                             </span>

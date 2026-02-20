@@ -26,26 +26,54 @@ interface SectionProps {
     isGif?: boolean;
 }
 
+const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: "spring", damping: 25, stiffness: 100 } as const
+    }
+};
+
+const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.1
+        }
+    }
+};
+
 const Section = ({ badgeIcon, badgeText, title, text, image, reverse = false, isGif = false }: SectionProps) => (
     <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        viewport={{ once: true }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-10% 0px" }}
+        variants={staggerContainer}
         className="relative py-2 lg:py-3"
     >
         <div className="max-w-7xl mx-auto px-6">
             <div className={`grid lg:grid-cols-2 gap-6 items-center ${reverse ? 'lg:flex-row-reverse' : ''}`}>
-                <div className={`space-y-4 ${reverse ? 'lg:order-2' : 'lg:order-1'}`}>
-                    <Badge icon={badgeIcon} text={badgeText} />
-                    <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-neutral-900">
+                <motion.div
+                    variants={staggerContainer}
+                    className={`space-y-4 ${reverse ? 'lg:order-2' : 'lg:order-1'}`}
+                >
+                    <motion.div variants={fadeInUp}>
+                        <Badge icon={badgeIcon} text={badgeText} />
+                    </motion.div>
+                    <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-semibold tracking-tight text-neutral-900">
                         {title}
-                    </h2>
-                    <p className="text-sm md:text-base text-neutral-500 leading-relaxed font-medium">
+                    </motion.h2>
+                    <motion.p variants={fadeInUp} className="text-sm md:text-base text-neutral-500 leading-relaxed font-medium">
                         {text}
-                    </p>
-                </div>
-                <div className={`${reverse ? 'lg:order-1' : 'lg:order-2'} group`}>
+                    </motion.p>
+                </motion.div>
+                <motion.div
+                    variants={fadeInUp}
+                    className={`${reverse ? 'lg:order-1' : 'lg:order-2'} group`}
+                >
                     <div className="rounded-2xl shadow-lg border border-neutral-200 overflow-hidden relative aspect-[16/9] bg-neutral-50">
                         <img
                             src={image}
@@ -57,7 +85,7 @@ const Section = ({ badgeIcon, badgeText, title, text, image, reverse = false, is
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
                     </div>
-                </div>
+                </motion.div>
             </div>
         </div>
     </motion.section>
@@ -73,21 +101,24 @@ const About = () => {
                 <section className="pt-2 pb-2">
                     <div className="max-w-7xl mx-auto px-6">
                         <motion.div
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
+                            initial="hidden"
+                            animate="visible"
+                            variants={staggerContainer}
                             className="max-w-3xl"
                         >
-                            <span className="inline-flex items-center gap-2 text-red-600 font-bold uppercase tracking-[0.2em] text-[10px] mb-2 px-3 py-1 rounded-full bg-red-50/50 border border-red-100">
+                            <motion.span
+                                variants={fadeInUp}
+                                className="inline-flex items-center gap-2 text-red-600 font-bold uppercase tracking-[0.2em] text-[10px] mb-2 px-3 py-1 rounded-full bg-red-50/50 border border-red-100"
+                            >
                                 <Activity size={12} />
                                 About The Society
-                            </span>
-                            <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-neutral-900 mb-2 leading-none">
+                            </motion.span>
+                            <motion.h1 variants={fadeInUp} className="text-4xl md:text-6xl font-bold tracking-tighter text-neutral-900 mb-2 leading-none">
                                 INSHLT
-                            </h1>
-                            <p className="text-base md:text-lg text-neutral-500 leading-relaxed max-w-2xl font-medium">
+                            </motion.h1>
+                            <motion.p variants={fadeInUp} className="text-base md:text-lg text-neutral-500 leading-relaxed max-w-2xl font-medium">
                                 Advancing the field of heart and lung transplantation through research, education, and advocacy.
-                            </p>
+                            </motion.p>
                         </motion.div>
                     </div>
                 </section>

@@ -5,6 +5,11 @@ export const login = async (credentials: any) => {
     return response.data;
 };
 
+export const learnerLogin = async (data: { email: string }) => {
+    const response = await apiClient.post('/auth/learner/login', data);
+    return response.data;
+};
+
 export const sendOTP = async (email: string) => {
     const response = await apiClient.post('/auth/send-otp', { email });
     return response.data;
@@ -16,7 +21,7 @@ export const verifyOTP = async (email: string, otp: string) => {
 };
 
 export const register = async (data: any) => {
-    const response = await apiClient.post('/auth/register', data);
+    const response = await apiClient.post('/auth/learner/register', data);
     return response.data;
 };
 

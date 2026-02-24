@@ -7,64 +7,53 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import signupHero from "@/assets/signupHero.png";
 import { useState } from "react";
-import { sendOTP, verifyOTP } from "@/api/auth";
+import { learnerLogin } from "@/api/auth";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const LogIn = () => {
     const [email, setEmail] = useState("");
-    const [otp, setOtp] = useState("");
-    const [step, setStep] = useState<"email" | "otp">("email");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSendOTP = async (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
-        const promise = sendOTP(email);
 
-        toast.promise(promise, {
-            loading: 'Verifying email...',
-            success: () => {
-                setStep("otp");
-                return 'Verification code sent to your email!';
-            },
-            error: (err) => err.response?.data?.message || "Email not registered. Please create an account."
-        });
-
-        try {
-            await promise;
-        } catch (error) {
-            // Error handled by toast.promise
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleVerifyOTP = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (otp.length !== 6) {
-            toast.error("Please enter a valid 6-digit code");
+        if (!email) {
+            toast.error("Please enter your email address");
             return;
         }
 
         setLoading(true);
-        const promise = verifyOTP(email, otp);
-
-        toast.promise(promise, {
-            loading: 'Authenticating...',
-            success: (data) => {
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("user", JSON.stringify(data));
-                navigate("/");
-                return `Welcome back, ${data.name}!`;
-            },
-            error: (err) => err.response?.data?.message || "Invalid or expired code"
-        });
-
         try {
-            await promise;
-        } catch (error) {
-            // Error handled by toast.promise
+            console.log("%c >>> Learner Login API Call <<< ", "background: #1a1a1a; color: #fff; font-weight: bold; padding: 4px; border-radius: 4px;");
+            console.log("Endpoint: /api/auth/learner/login");
+            console.log("Payload:", { email });
+
+            const data = await learnerLogin({ email: email.trim() });
+
+            console.log("Login Response:", data);
+
+            // Assuming response contains token and user data
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+                if (data.data) {
+                    localStorage.setItem("user", JSON.stringify(data.data));
+                }
+
+                toast.success(`Welcome back!`);
+
+                // Redirect based on role or to home
+                setTimeout(() => navigate("/"), 1000);
+            } else {
+                toast.error(data.message || "Login failed. Please check your credentials.");
+            }
+        } catch (error: any) {
+            console.error("%c >>> Login Error details <<< ", "background: #ff0000; color: #fff; font-weight: bold; padding: 4px; border-radius: 4px;");
+            console.log("Error Response:", error.response?.data);
+
+            const errorMsg = error.response?.data?.message || "Login failed. Email not found or inactive.";
+            toast.error(errorMsg);
         } finally {
             setLoading(false);
         }
@@ -74,16 +63,24 @@ const LogIn = () => {
         <div className="min-h-screen flex flex-col bg-white selection:bg-primary selection:text-white font-inter">
             <Header />
 
-            <main className="flex-grow container mx-auto px-6 lg:px-12 py-16 lg:py-24">
+            <main className="flex-grow container mx-auto px-6 lg:px-12 py-8 lg:py-12">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-7xl mx-auto font-inter">
                     {/* Left Column - Form */}
                     <div className="max-w-xl w-full mx-auto lg:ml-0">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1a1a1a] mb-6 tracking-tight leading-[1.1]">
+                                Welcome Back
+                            </h1>
+                            <p className="text-gray-500 mb-8 text-lg font-medium">
+                                Please enter your details to access your account.
+                            </p>
+                        </motion.div>
 
-                        <h1 className="text-5xl lg:text-6xl font-extrabold text-[#1a1a1a] mb-10 tracking-tight leading-[1.1]">
-                            {step === "email" ? "Login" : "Verify OTP"}
-                        </h1>
-
-                        <form className="space-y-6 lg:space-y-8" onSubmit={step === "email" ? handleSendOTP : handleVerifyOTP}>
+                        <form className="space-y-4 lg:space-y-6" onSubmit={handleLogin}>
                             <div className="space-y-3">
                                 <Label className="text-base font-bold text-[#1a1a1a] ml-1">Email address</Label>
                                 <Input
@@ -91,67 +88,43 @@ const LogIn = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter your email address"
-                                    className={`rounded-full border-gray-200 bg-[#f9fafb] px-8 py-7 text-lg focus:ring-primary focus:border-primary transition-all placeholder:text-gray-400 ${step === 'otp' ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                    className="rounded-full border-gray-200 bg-[#f9fafb] px-6 py-5 text-base focus:ring-primary focus:border-primary transition-all placeholder:text-gray-400"
                                     required
-                                    disabled={step === "otp"}
                                 />
-                                {step === "otp" && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setStep("email")}
-                                        className="text-primary text-xs font-bold ml-4 hover:underline"
-                                    >
-                                        Edit Email
-                                    </button>
-                                )}
-                            </div>
-
-                            <div className="space-y-3 relative">
-                                <Label className="text-base font-bold text-[#1a1a1a] ml-1">Verification Code</Label>
-                                <div className="relative group">
-                                    <Input
-                                        type="text"
-                                        value={otp}
-                                        onChange={(e) => setOtp(e.target.value)}
-                                        placeholder={step === 'email' ? "Enter OTP (Click 'Get OTP' first)" : "Type 6-digit code here"}
-                                        disabled={step === 'email'}
-                                        maxLength={6}
-                                        autoFocus={step === 'otp'}
-                                        className={`rounded-full border-gray-200 px-8 py-7 text-3xl text-center tracking-[0.5em] font-bold transition-all duration-500
-                                            ${step === 'email'
-                                                ? 'bg-gray-50/50 opacity-40 cursor-not-allowed placeholder:text-sm placeholder:tracking-normal placeholder:font-normal'
-                                                : 'bg-white border-primary shadow-inner-lg animate-in fade-in slide-in-from-top-2'}`}
-                                        required
-                                    />
-                                    {step === 'email' && (
-                                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                            <div className="w-[80%] h-px bg-gray-200/50" />
-                                        </div>
-                                    )}
-                                </div>
-                                <p className="text-xs text-center text-gray-400 font-medium">
-                                    {step === 'email'
-                                        ? "Code entry will activate after email validation"
-                                        : "Please check your inbox for the code"}
-                                </p>
                             </div>
 
                             <Button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-[#FF0000] hover:bg-[#cc0000] text-white rounded-full py-8 text-lg font-bold uppercase tracking-widest mt-4 transition-all hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-black/10">
-                                {loading ? "Processing..." : (step === "email" ? "Get OTP" : "Verify & Login")}
+                                className="w-full bg-[#FF0000] hover:bg-[#cc0000] text-white rounded-full py-6 text-lg font-bold mt-2 transition-all hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-black/10"
+                            >
+                                {loading ? (
+                                    <div className="flex items-center gap-2">
+                                        <Loader2 className="w-5 h-5 animate-spin" />
+                                        <span>Logging in...</span>
+                                    </div>
+                                ) : "Login Now"}
                             </Button>
                         </form>
 
-                        <p className="mt-8 text-center text-lg font-medium text-gray-500">
-                            Don't have an account? <Link to="/register" className="text-[#2563eb] hover:underline font-semibold">Register now</Link>
-                        </p>
+                        <div className="mt-8 flex items-center justify-between">
+                            <div className="h-px bg-gray-100 flex-grow" />
+                            <span className="px-4 text-sm text-gray-400 font-medium">or continue with</span>
+                            <div className="h-px bg-gray-100 flex-grow" />
+                        </div>
 
+                        <p className="mt-8 text-center text-base font-medium text-gray-500">
+                            Don't have an account? <Link to="/register" className="text-[#2563eb] hover:underline font-bold">Register now</Link>
+                        </p>
                     </div>
 
                     {/* Right Column - Image */}
-                    <div className="relative h-[600px] lg:h-[750px] w-full hidden lg:block">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6 }}
+                        className="relative h-[500px] lg:h-[600px] w-full hidden lg:block"
+                    >
                         <div className="absolute inset-0 bg-gray-100 rounded-[40px] lg:rounded-[60px] overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.01]">
                             <img
                                 src={signupHero}
@@ -160,7 +133,7 @@ const LogIn = () => {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </main>
 
@@ -168,5 +141,6 @@ const LogIn = () => {
         </div>
     );
 };
+
 
 export default LogIn;

@@ -1,36 +1,15 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Play, Pause } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+
 import { PrimaryButton } from "@/components/ui/primary-button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import heroDoctor from "@/assets/hero-doctor.jpg";
-import { useState, useEffect, useRef } from "react";
+import heroc1 from "@/assets/heroc1.webp";
+import { useRef } from "react";
 
 const HeroSection = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  // Scroll-based parallax for stats card
-  const { scrollY } = useScroll();
-  const statsY = useTransform(scrollY, [0, 500], [0, 150]);
-
-  // Hero images for carousel
-  const heroImages = [
-    heroDoctor,
-    "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&h=800&fit=crop",
-  ];
-
-  // Auto-change image carousel
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [heroImages.length]);
 
   // Partner logos placeholder data
   const partners = [
@@ -47,19 +26,16 @@ const HeroSection = () => {
   // Duplicate partners for seamless scrolling
   const duplicatedPartners = [...partners, ...partners];
 
-  // Avatar placeholder images
-  const avatars = [
-    "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&h=100&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=100&h=100&fit=crop&crop=face",
-  ];
+
 
   return (
     <section className="relative bg-background overflow-hidden">
       {/* Main Hero Container */}
-      <div className="mx-4 lg:mx-8 my-4">
+      <div className="mx-4 lg:mx-8 my-2">
+
         <div className="bg-hero rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden">
-          <div className="container mx-auto px-6 lg:px-12 py-12 lg:py-16">
+          <div className="container mx-auto px-6 lg:px-12 py-8 lg:py-10">
+
             <div className="grid lg:grid-cols-2 gap-4 lg:gap-6 items-center">
               {/* Left Content */}
               <div className="space-y-8 h-full flex flex-col justify-center">
@@ -73,7 +49,7 @@ const HeroSection = () => {
                     Welcome to INSHLT Learning
                   </Badge>
                 </motion.div>
-
+                
                 {/* Main Heading */}
                 <motion.h1
                   initial={{ opacity: 0, y: 30 }}
@@ -177,36 +153,15 @@ const HeroSection = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative"
               >
-                <div className="relative rounded-[1.5rem] overflow-hidden">
-                  {heroImages.map((image, index) => (
-                    <motion.img
-                      key={index}
-                      src={image}
-                      alt={`Medical professional ${index + 1}`}
-                      className={`w-full h-[450px] lg:h-[520px] object-cover object-top absolute inset-0 ${index === 0 ? "relative" : ""
-                        }`}
-                      initial={{ opacity: 0 }}
-                      animate={{
-                        opacity: currentImageIndex === index ? 1 : 0,
-                        scale: currentImageIndex === index ? 1 : 1.05
-                      }}
-                      transition={{ duration: 0.7, ease: "easeInOut" }}
-                    />
-                  ))}
+                <div className="relative rounded-[2rem] overflow-hidden group">
+                  <img
+                    src={heroc1}
+                    alt="Medical professional"
+                    className="w-full h-[380px] lg:h-[440px] object-cover object-top transition-transform duration-700 scale-[1.05] origin-top-left"
 
-                  {/* Carousel Indicators */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                    {heroImages.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${currentImageIndex === index
-                          ? "bg-white w-6"
-                          : "bg-white/50 hover:bg-white/70"
-                          }`}
-                      />
-                    ))}
-                  </div>
+                  />
+                  {/* Overlay to further ensure watermark is obscured if needed */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                 </div>
 
                 {/* Stats Card - Square with scroll parallax */}

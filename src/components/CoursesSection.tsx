@@ -1,66 +1,39 @@
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Loader2 } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getCourses } from "@/api/courses";
 
-const courses = [
-    {
-        id: "01",
-        total: "04",
-        title: "Advanced Heart Failure Management",
-        description: "In-depth clinical insights and management strategies for complex heart failure cases.",
-        image: "https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?w=800&h=600&fit=crop",
-        icon: "🫀",
-    },
-    {
-        id: "02",
-        total: "04",
-        title: "Transplantation Immunology",
-        description: "Understanding the immunological basis of organ rejection and immunosuppressive therapy.",
-        image: "https://images.unsplash.com/photo-1532187863486-abf9d39d99c5?w=800&h=600&fit=crop",
-        icon: "🔬",
-    },
-    {
-        id: "03",
-        total: "04",
-        title: "Mechanical Circulatory Support",
-        description: "Hands-on training and theoretical knowledge on LVADs and other circulatory assist devices.",
-        image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&h=600&fit=crop",
-        icon: "⚙️",
-    },
-    {
-        id: "04",
-        total: "04",
-        title: "Post-Transplant Clinical Care",
-        description: "Comprehensive guidance on long-term follow-up and management of transplant recipients.",
-        image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&h=600&fit=crop",
-        icon: "🏥",
-    },
-];
 
-const CourseCard = ({ course, index, progress, totalCards }: { course: typeof courses[0], index: number, progress: any, totalCards: number }) => {
-    // Total timeline is 0 to 1.
-    // 0.0 to 0.2: All cards stay still (Initial Stack View)
-    // 0.2 to 0.9: Peeling phase
-    // 0.9 to 1.0: End hold
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'https://inshltserver.kasapp.in';
+
+interface Course {
+    id: string;
+    total: string;
+    title: string;
+    description: string;
+    image: string;
+    icon: string;
+    _id: string;
+}
+
+
+const CourseCard = ({ course, index, progress, totalCards }: { course: Course, index: number, progress: any, totalCards: number }) => {
 
     const peelStart = 0.2;
     const peelEnd = 0.9;
     const peelDuration = peelEnd - peelStart;
     const cardSegment = peelDuration / totalCards;
 
-    // Each card's turn to move
     const moveStart = peelStart + (index * cardSegment);
     const moveEnd = peelStart + ((index + 1) * cardSegment);
 
-    // Movement: Alternating right/left
     const direction = index % 2 === 0 ? 1500 : -1500;
 
-    // x position: starts at 0, only moves between moveStart and moveEnd
     const x = useTransform(progress, [moveStart, moveEnd], [0, direction], { clamp: true });
     const opacity = useTransform(progress, [moveStart, moveEnd], [1, 0], { clamp: true });
 
-    // Initial fanned stack look
     const rotations = [0, -4, 4, -8];
     const scales = [1, 0.98, 0.96, 0.94];
     const yOffsets = [0, -15, 15, -30];
@@ -81,35 +54,35 @@ const CourseCard = ({ course, index, progress, totalCards }: { course: typeof co
             }}
             className="absolute inset-0 flex items-center justify-center p-4 lg:p-0"
         >
-            {/* Main Card Container */}
             <Link
-                to="/course-detail"
+                to={`/course-detail/${course._id}`}
                 className="relative w-full max-w-4xl lg:h-[70vh] rounded-[2.5rem] border-[6px] lg:border-[12px] border-primary/20 overflow-hidden shadow-2xl bg-white block group"
             >
                 <img
                     src={course.image}
                     alt={course.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    onError={(e: any) => {
+                        e.target.src = "https://images.unsplash.com/photo-1576091160550-217359f4ecf8?w=1200&h=800&fit=crop";
+                    }}
                 />
 
-                {/* Top Right Counter Indicator */}
                 <div className="absolute top-6 right-8 bg-black/40 backdrop-blur-sm px-4 py-1.5 rounded-full z-10">
-                    <p className="text-white font-semibold text-lg">
+                    <p className="text-white font-semibold text-base sm:text-lg">
                         {course.id}<span className="text-white/60 mx-1">/</span>{course.total}
                     </p>
                 </div>
 
-                {/* Bottom Left Info Box */}
                 <div className="absolute bottom-10 left-6 lg:left-10 right-6 lg:right-auto max-w-sm bg-white rounded-3xl p-6 shadow-xl">
                     <div className="flex items-start gap-4">
-                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl shrink-0">
+                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-xl lg:text-2xl shrink-0">
                             {course.icon}
                         </div>
                         <div>
-                            <h3 className="text-xl lg:text-2xl font-bold text-foreground mb-2">
+                            <h3 className="text-lg lg:text-xl font-bold text-foreground mb-1.5 line-clamp-2">
                                 {course.title}
                             </h3>
-                            <p className="text-muted-foreground text-sm leading-relaxed">
+                            <p className="text-muted-foreground text-xs lg:text-sm leading-relaxed line-clamp-3">
                                 {course.description}
                             </p>
                         </div>
@@ -120,12 +93,71 @@ const CourseCard = ({ course, index, progress, totalCards }: { course: typeof co
     );
 };
 
+const iconMap: Record<string, string> = {
+    "Cardiology": "🫀",
+    "Vascular": "🔬",
+    "Ortho": "⚙️",
+    "General": "🏥",
+};
+
 const CoursesSection = () => {
+
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"],
     });
+
+    const { data: apiResponse, isLoading, error } = useQuery({
+        queryKey: ['courses'],
+        queryFn: getCourses
+    });
+
+    // REVERT: Show ALL courses regardless of status, as requested
+    const allRows = apiResponse?.data?.rows || [];
+
+    const courses: Course[] = allRows.map((row: any, index: number) => {
+        let imageUrl = row.image;
+        if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${IMAGE_BASE_URL}${imageUrl}`;
+        }
+        if (!imageUrl) {
+            imageUrl = "https://images.unsplash.com/photo-1576091160550-217359f4ecf8?w=1200&h=800&fit=crop";
+        }
+
+        return {
+            id: (index + 1).toString().padStart(2, '0'),
+            _id: row._id,
+            total: allRows.length.toString().padStart(2, '0'),
+            title: row.title,
+            description: row.description,
+            image: imageUrl,
+            icon: iconMap[row.category] || "📘",
+        };
+    });
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                <p className="text-muted-foreground animate-pulse font-medium">Discovering exceptional courses...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <p className="text-2xl">⚠️</p>
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-2">Unable to load courses</h3>
+                <p className="text-muted-foreground max-w-sm">
+                    We're having trouble connecting to our servers. Please check your connection and try again.
+                </p>
+            </div>
+        );
+    }
 
     return (
         <section id="courses" className="bg-hero/30 pt-20 lg:pt-32 pb-10 lg:pb-16">
@@ -163,38 +195,40 @@ const CoursesSection = () => {
                 </div>
             </div>
 
-            {/* Desktop Sticky Container */}
-            {/* Height is large enough to allow pinning. Sticky element pins to the viewport. */}
-            <div ref={containerRef} className="relative h-[500vh] hidden lg:block overflow-visible">
-                <div className="sticky top-[15vh] h-[80vh] flex items-center justify-center overflow-visible">
-                    <div className="relative w-full h-full flex items-center justify-center">
-                        {courses.map((course, index) => (
-                            <CourseCard
-                                key={course.id}
-                                course={course}
-                                index={index}
-                                progress={scrollYProgress}
-                                totalCards={courses.length}
-                            />
-                        ))}
+            {courses.length > 0 && (
+                <>
+                    <div ref={containerRef} className="relative h-[500vh] hidden lg:block overflow-visible">
+                        <div className="sticky top-[15vh] h-[80vh] flex items-center justify-center overflow-visible">
+                            <div className="relative w-full h-full flex items-center justify-center">
+                                {courses.map((course, index) => (
+                                    <CourseCard
+                                        key={course._id}
+                                        course={course}
+                                        index={index}
+                                        progress={scrollYProgress}
+                                        totalCards={courses.length}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                    <div className="lg:hidden space-y-24 px-4">
+                        <MobileCourseList courses={courses} />
+                    </div>
+                </>
+            )}
 
-            {/* Mobile Stack View (No sticky/scroll animation) */}
-            <div className="lg:hidden space-y-24 px-4">
-                <MobileCourseList />
-            </div>
         </section>
     );
 };
 
-const MobileCourseList = () => {
+const MobileCourseList = ({ courses }: { courses: Course[] }) => {
     const staticProgress = useMotionValue(0);
+
     return (
         <>
             {courses.map((course, index) => (
-                <div key={course.id} className="relative h-[60vh] md:h-[70vh]">
+                <div key={course._id} className="relative h-[60vh] md:h-[70vh]">
                     <CourseCard
                         course={course}
                         index={index}

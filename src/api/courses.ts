@@ -1,26 +1,26 @@
 import apiClient from '@/lib/axios';
 
 export const getCourses = async () => {
-    const response = await apiClient.get('/courses');
+    const response = await apiClient.get('/course');
     return response.data;
 };
 
 export const getCourse = async (id: string) => {
-    const response = await apiClient.get(`/courses/${id}`);
+    const response = await apiClient.get(`/course/${id}`);
     return response.data;
 };
 
 export const createCourse = async (data: any) => {
-    const response = await apiClient.post('/courses', data);
+    const response = await apiClient.post('/course', data);
     return response.data;
 };
 
 export const updateCourse = async (id: string, data: any) => {
-    const response = await apiClient.put(`/courses/${id}`, data);
+    const response = await apiClient.put(`/course/${id}`, data);
     return response.data;
 };
 
 export const deleteCourse = async (id: string) => {
-    const response = await apiClient.delete(`/courses/${id}`);
+    const response = await apiClient.delete(`/course/${id}`);
     return response.data;
 };

@@ -170,7 +170,7 @@ const CoursesSection = () => {
                         className="inline-block"
                     >
                         <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
-                            <BookOpen size={16} className="animate-pulse" />
+                            < BookOpen size={16} className="animate-pulse" />
                             Featured Courses
                         </span>
                     </motion.div>

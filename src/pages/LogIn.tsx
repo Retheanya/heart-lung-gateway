@@ -34,19 +34,27 @@ const LogIn = () => {
 
             console.log("Login Response:", data);
 
-            // Assuming response contains token and user data
-            if (data.token) {
-                localStorage.setItem("token", data.token);
-                if (data.data) {
-                    localStorage.setItem("user", JSON.stringify(data.data));
+            // Access token and user data (handling potential nesting)
+            const token = data.token || data.data?.token;
+            const userData = data.data?.user || data.data;
+            const message = data.message || "";
+
+            if (token) {
+                localStorage.setItem("token", token);
+                if (userData) {
+                    localStorage.setItem("user", JSON.stringify(userData));
                 }
 
-                toast.success(`Welcome back!`);
+                toast.success(message || "Welcome back!");
 
-                // Redirect based on role or to home
-                setTimeout(() => navigate("/"), 1000);
+                // Immediate navigation is often better for UX
+                navigate("/learners/my-courses");
+            } else if (message.toLowerCase().includes("successful")) {
+                // Fallback for cases where it says successful but token is sent differently or handled by cookies
+                toast.success(message);
+                navigate("/learners/my-courses");
             } else {
-                toast.error(data.message || "Login failed. Please check your credentials.");
+                toast.error(message || "Login failed. Please check your credentials.");
             }
         } catch (error: any) {
             console.error("%c >>> Login Error details <<< ", "background: #ff0000; color: #fff; font-weight: bold; padding: 4px; border-radius: 4px;");

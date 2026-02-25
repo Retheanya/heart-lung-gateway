@@ -105,11 +105,24 @@ const Register = () => {
             };
 
             const response = await apiClient.post('/auth/learner/register', payload);
+            const data = response.data;
 
-            console.log("%c REGISTRATION SUCCESS ", "background: #22c55e; color: #fff; font-weight: bold; padding: 4px; border-radius: 4px;", response.data);
-            toast.success(`Registration Successful! Welcome, ${name}.`);
+            console.log("%c REGISTRATION SUCCESS ", "background: #22c55e; color: #fff; font-weight: bold; padding: 4px; border-radius: 4px;", data);
 
-            setTimeout(() => navigate("/login"), 1500);
+            const token = data.token || data.data?.token;
+            const userData = data.data?.user || data.data;
+
+            if (token) {
+                localStorage.setItem("token", token);
+                if (userData) {
+                    localStorage.setItem("user", JSON.stringify(userData));
+                }
+                toast.success(`Registration Successful! Welcome, ${name}.`);
+                navigate("/learners/my-courses");
+            } else {
+                toast.success(`Registration Successful! Please login to continue.`);
+                setTimeout(() => navigate("/login"), 1500);
+            }
         } catch (error: any) {
             const status = error.response?.status;
             const data = error.response?.data;

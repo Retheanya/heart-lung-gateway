@@ -5,6 +5,16 @@ export const getCourses = async () => {
     return response.data;
 };
 
+export const getEnrolledCourses = async () => {
+    const response = await apiClient.get('/auth/learner/enrolled-courses');
+    return response.data;
+};
+
+export const getEnrolledCourse = async (id: string) => {
+    const response = await apiClient.get(`/auth/learner/enrolled-courses/${id}`);
+    return response.data;
+};
+
 export const getCourse = async (id: string) => {
     const response = await apiClient.get(`/course/${id}`);
     return response.data;

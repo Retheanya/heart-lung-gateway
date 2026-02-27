@@ -15,7 +15,6 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const LogIn = lazy(() => import("./pages/LogIn"));
 const About = lazy(() => import("./pages/About"));
 const Register = lazy(() => import("./pages/Register"));
-const CourseDetail = lazy(() => import("./pages/CourseDetail"));
 
 // Learner Dashboard Imports
 const LearnerDashboard = lazy(() => import("./pages/learners/Dashboard"));
@@ -52,7 +51,7 @@ const App = () => (
               <Route index element={<MyCourses />} />
               <Route path="dashboard" element={<LearnerDashboard />} />
               <Route path="my-courses" element={<MyCourses />} />
-              <Route path="course/:id" element={<CoursePlayer />} />
+              <Route path="my-courses/:id" element={<CoursePlayer />} />
               <Route path="quiz" element={<div className="p-8 text-center bg-white rounded-3xl shadow-xl mt-12"><h2 className="text-2xl font-black">Quiz Score</h2><p className="text-gray-500 mt-2 font-bold">Coming soon...</p></div>} />
               <Route path="certificates" element={<div className="p-8 text-center bg-white rounded-3xl shadow-xl mt-12"><h2 className="text-2xl font-black">Certificates</h2><p className="text-gray-500 mt-2 font-bold">Coming soon...</p></div>} />
               <Route path="calendar" element={<div className="p-8 text-center bg-white rounded-3xl shadow-xl mt-12"><h2 className="text-2xl font-black">Calendar</h2><p className="text-gray-500 mt-2 font-bold">Coming soon...</p></div>} />
@@ -60,7 +59,6 @@ const App = () => (
             </Route>
 
             <Route path="/courses" element={<Courses />} />
-            <Route path="/course-detail/:id" element={<CourseDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

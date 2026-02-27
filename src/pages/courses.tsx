@@ -17,7 +17,7 @@ import { getCourses } from "@/api/courses";
 import { Loader2 } from "lucide-react";
 
 
-const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'https://inshltserver.kasapp.in';
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'https://api.inshltcourse.com';
 
 
 const Courses = () => {

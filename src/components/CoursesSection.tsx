@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCourses } from "@/api/courses";
 
 
-const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'https://inshltserver.kasapp.in';
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'https://api.inshltcourse.com';
 
 interface Course {
     id: string;

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, User, AtSign, PhoneCall, ChevronDown, Calendar, Check, Loader2, Sparkles } from "lucide-react";
+import { Mail, Phone, MapPin, User, AtSign, PhoneCall, ChevronDown, Calendar, Check, Loader2, Sparkles, Lock, Eye, EyeOff } from "lucide-react";
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -38,6 +38,8 @@ const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -47,9 +49,7 @@ const Register = () => {
         queryFn: getCourses,
     });
 
-    // More robust mapping to handle different API response structures
-    const allRowsArr = coursesData?.data?.rows || coursesData?.rows || coursesData?.data || (Array.isArray(coursesData) ? coursesData : []);
-    const coursesList = Array.isArray(allRowsArr) ? allRowsArr : [];
+    const coursesList = coursesData?.data || [];
 
     useEffect(() => {
         const idToSelect = paramId || stateId || courseIdFromQuery;
@@ -75,13 +75,13 @@ const Register = () => {
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name || !email || !phone || selectedCourses.length === 0) {
+        if (!name || !email || !phone || !password || selectedCourses.length === 0) {
             toast.error("Please fill in all required fields and select a course");
             return;
         }
         setLoading(true);
         try {
-            const payload = { fullName: name.trim(), email: email.trim(), phone: phone.trim(), courseId: selectedCourses };
+            const payload = { fullName: name.trim(), email: email.trim(), phone: phone.trim(), password, courseId: selectedCourses };
             const response = await apiClient.post("/auth/learner/register", payload);
             const data = response.data;
             const token = data.token || data.data?.token;
@@ -220,6 +220,28 @@ const Register = () => {
                                                     className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-muted/40 border border-transparent focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/10 outline-none transition-all font-medium text-foreground placeholder:text-muted-foreground/60"
                                                     required
                                                 />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-foreground">Password *</label>
+                                            <div className="relative">
+                                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
+                                                <input
+                                                    type={showPassword ? "text" : "password"}
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    placeholder="Create a password"
+                                                    className="w-full pl-12 pr-12 py-3.5 rounded-xl bg-muted/40 border border-transparent focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/10 outline-none transition-all font-medium text-foreground placeholder:text-muted-foreground/60"
+                                                    required
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPassword((p) => !p)}
+                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                                >
+                                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                                </button>
                                             </div>
                                         </div>
                                         <div className="space-y-2">

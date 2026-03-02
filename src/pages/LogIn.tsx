@@ -9,18 +9,20 @@ import signupHero from "@/assets/signupHero.png";
 import { useState } from "react";
 import { learnerLogin } from "@/api/auth";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 const LogIn = () => {
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!email) {
-            toast.error("Please enter your email address");
+        if (!email || !password) {
+            toast.error("Please enter your email and password");
             return;
         }
 
@@ -30,7 +32,7 @@ const LogIn = () => {
             console.log("Endpoint: /api/auth/learner/login");
             console.log("Payload:", { email });
 
-            const data = await learnerLogin({ email: email.trim() });
+            const data = await learnerLogin({ email: email.trim(), password });
 
             console.log("Login Response:", data);
 
@@ -99,6 +101,27 @@ const LogIn = () => {
                                     className="rounded-full border-gray-200 bg-[#f9fafb] px-6 py-5 text-base focus:ring-primary focus:border-primary transition-all placeholder:text-gray-400"
                                     required
                                 />
+                            </div>
+                            <div className="space-y-3">
+                                <Label className="text-base font-bold text-[#1a1a1a] ml-1">Password</Label>
+                                <div className="relative">
+                                    <Input
+                                        type={showPassword ? "text" : "password"}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Enter your password"
+                                        className="rounded-full border-gray-200 bg-[#f9fafb] px-6 py-5 pr-12 text-base focus:ring-primary focus:border-primary transition-all placeholder:text-gray-400"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword((p) => !p)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                        aria-label={showPassword ? "Hide password" : "Show password"}
+                                    >
+                                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                    </button>
+                                </div>
                             </div>
 
                             <Button

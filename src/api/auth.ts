@@ -5,7 +5,7 @@ export const login = async (credentials: any) => {
     return response.data;
 };
 
-export const learnerLogin = async (data: { email: string }) => {
+export const learnerLogin = async (data: { email: string; password: string }) => {
     const response = await apiClient.post('/auth/learner/login', data);
     return response.data;
 };

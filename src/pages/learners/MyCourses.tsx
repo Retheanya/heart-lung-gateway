@@ -9,13 +9,25 @@ import {
     Calendar,
     Clock,
     IndianRupee,
-    Tag
+    Tag,
+    Mail,
+    Phone,
+    AlertCircle
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getEnrolledCourses } from "@/api/courses";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export default function MyCourses() {
     const navigate = useNavigate();
@@ -24,6 +36,10 @@ export default function MyCourses() {
     const [viewMode, setViewMode] = useState<"table" | "grid">("table");
     const [sortBy, setSortBy] = useState("Last Accessed");
     const [currentPage, setCurrentPage] = useState(1);
+    const [showPaymentPendingDialog, setShowPaymentPendingDialog] = useState(false);
+
+    const COMPANY_EMAIL = "support_INHFT@gmail.com";
+    const COMPANY_PHONE = "+91 9650929005";
     const itemsPerPage = 6;
 
     // Fetch enrolled courses specific to the logged-in learner
@@ -85,6 +101,7 @@ export default function MyCourses() {
                 startTime: c.startTime || "-",
                 image: fullImageUrl,
                 progress: c.progress || 0,
+                paymentStatus: c.paymentStatus,
             };
         });
     }, [coursesData]);
@@ -117,7 +134,11 @@ export default function MyCourses() {
     }, [filteredCourses, currentPage]);
 
     const handleAction = (course: any) => {
-        navigate(`/learners/my-courses/${course.id}`);
+        if (course.paymentStatus === 0) {
+            setShowPaymentPendingDialog(true);
+        } else {
+            navigate(`/learners/my-courses/${course.id}`);
+        }
     };
 
     if (isLoading) {
@@ -334,6 +355,55 @@ export default function MyCourses() {
                     ))}
                 </div>
             )}
+
+            {/* Payment Pending Dialog */}
+            <Dialog open={showPaymentPendingDialog} onOpenChange={setShowPaymentPendingDialog}>
+                <DialogContent className="sm:max-w-md rounded-2xl">
+                    <DialogHeader>
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center">
+                                <AlertCircle className="w-6 h-6 text-amber-600" />
+                            </div>
+                            <DialogTitle className="text-xl font-black text-gray-900">Payment Pending</DialogTitle>
+                        </div>
+                        <DialogDescription className="text-left text-base font-medium text-gray-600 pt-1">
+                            Payment is pending. Pay now to continue and access your course.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <p className="text-sm font-bold text-gray-500">Contact us to complete payment:</p>
+                        <div className="flex flex-col gap-3">
+                            <a
+                                href={`mailto:${COMPANY_EMAIL}`}
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-colors"
+                            >
+                                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                    <Mail className="w-5 h-5 text-primary" />
+                                </div>
+                                <span className="font-semibold text-gray-900">{COMPANY_EMAIL}</span>
+                            </a>
+                            <a
+                                href={`tel:${COMPANY_PHONE.replace(/\s/g, "")}`}
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-colors"
+                            >
+                                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                    <Phone className="w-5 h-5 text-primary" />
+                                </div>
+                                <span className="font-semibold text-gray-900">{COMPANY_PHONE}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowPaymentPendingDialog(false)}
+                            className="rounded-xl"
+                        >
+                            Close
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
 
             {/* Pagination Controls */}
             {totalPages > 1 && (

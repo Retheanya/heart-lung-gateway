@@ -26,9 +26,8 @@ const Courses = () => {
     queryFn: getCourses
   });
 
-  // More robust mapping to handle different API response structures
-  const allRowsArr = apiResponse?.data?.rows || apiResponse?.rows || apiResponse?.data || (Array.isArray(apiResponse) ? apiResponse : []);
-  const allRows = Array.isArray(allRowsArr) ? allRowsArr : [];
+  // REVERT: Show ALL courses regardless of status, as requested
+  const allRows = apiResponse?.data || [];
 
   const courses = allRows.map((row: any) => ({
     id: row._id,
@@ -200,7 +199,7 @@ const Courses = () => {
 
                             {/* Title */}
                             <div>
-                              <h3 className="text-2xl sm:text-3xl font-bold text-[#0A291E] leading-tight">
+                              <h3 className="text-xl sm:text-xl font-bold text-[#0A291E] leading-tight">
                                 {course.title}
                               </h3>
                             </div>

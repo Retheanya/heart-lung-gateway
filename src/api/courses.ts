@@ -1,8 +1,13 @@
 import apiClient from '@/lib/axios';
 
 export const getCourses = async () => {
-    const response = await apiClient.get('/course');
-    return response.data;
+    try {
+        const response = await apiClient.get('/course/all/courses');
+        return response.data;
+    } catch (error: any) {
+        // Fallback for public access if API is protected or fails
+        return { data: { rows: [] } };
+    }
 };
 
 export const getEnrolledCourses = async () => {

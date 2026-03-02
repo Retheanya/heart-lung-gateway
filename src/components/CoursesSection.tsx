@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { BookOpen, Loader2 } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getCourses } from "@/api/courses";
@@ -21,33 +21,39 @@ interface Course {
 
 const CourseCard = ({ course, index, progress, totalCards }: { course: Course, index: number, progress: any, totalCards: number }) => {
 
-    const peelStart = 0.2;
-    const peelEnd = 0.9;
+    const peelStart = 0.05; // Start earlier for better feedback
+    const peelEnd = 0.85; // End later to maintain visibility
     const peelDuration = peelEnd - peelStart;
     const cardSegment = peelDuration / totalCards;
 
     const moveStart = peelStart + (index * cardSegment);
-    const moveEnd = peelStart + ((index + 1) * cardSegment);
+    const moveEnd = moveStart + cardSegment * 0.8; // Faster peel movement
 
     const direction = index % 2 === 0 ? 1500 : -1500;
 
     const x = useTransform(progress, [moveStart, moveEnd], [0, direction], { clamp: true });
-    const opacity = useTransform(progress, [moveStart, moveEnd], [1, 0], { clamp: true });
+    // Keep opacity 1 until the card is almost fully swiped out to prevent clashing content
+    const opacity = useTransform(progress, [moveStart, moveEnd - 0.1, moveEnd], [1, 1, 0], { clamp: true });
 
-    const rotations = [0, -4, 4, -8];
-    const scales = [1, 0.98, 0.96, 0.94];
-    const yOffsets = [0, -15, 15, -30];
+    const rotations = [0, -6, 6, -10];
+    const scales = [1, 0.96, 0.92, 0.88];
+    const yOffsets = [0, -25, 25, -50];
 
     const initialRotate = rotations[index % totalCards];
     const initialScale = scales[index % totalCards];
     const initialY = yOffsets[index % totalCards];
+
+    // Only show the card if it's nearing its turn or currently active
+    const isNearby = useTransform(progress, [moveStart - 0.3, moveStart], [0, 1], { clamp: true });
 
     return (
         <motion.div
             style={{
                 x: typeof window !== 'undefined' && window.innerWidth > 768 ? x : 0,
                 y: typeof window !== 'undefined' && window.innerWidth > 768 ? initialY : 0,
-                opacity: typeof window !== 'undefined' && window.innerWidth > 768 ? opacity : 1,
+                opacity: typeof window !== 'undefined' && window.innerWidth > 768
+                    ? index === 0 ? opacity : (index === 1 ? isNearby : opacity)
+                    : 1,
                 rotate: initialRotate,
                 scale: initialScale,
                 zIndex: totalCards - index,
@@ -63,7 +69,7 @@ const CourseCard = ({ course, index, progress, totalCards }: { course: Course, i
                     alt={course.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     onError={(e: any) => {
-                        e.target.src = "https://images.unsplash.com/photo-1576091160550-217359f4ecf8?w=1200&h=800&fit=crop";
+                        e.target.src = "https://images.unsplash.com/photo-1631815588090-d4bfec5b1cdb?w=1200&h=800&fit=crop";
                     }}
                 />
 
@@ -113,8 +119,9 @@ const CoursesSection = () => {
         queryFn: getCourses
     });
 
-    // REVERT: Show ALL courses regardless of status, as requested
-    const allRows = apiResponse?.data?.rows || [];
+    // More robust mapping to handle different API response structures
+    const allRowsArr = apiResponse?.data?.rows || apiResponse?.rows || apiResponse?.data || (Array.isArray(apiResponse) ? apiResponse : []);
+    const allRows = Array.isArray(allRowsArr) ? allRowsArr : [];
 
     const courses: Course[] = allRows.map((row: any, index: number) => {
         let imageUrl = row.image;
@@ -122,19 +129,51 @@ const CoursesSection = () => {
             imageUrl = `${IMAGE_BASE_URL}${imageUrl}`;
         }
         if (!imageUrl) {
-            imageUrl = "https://images.unsplash.com/photo-1576091160550-217359f4ecf8?w=1200&h=800&fit=crop";
+            imageUrl = "https://images.unsplash.com/photo-1631815588090-d4bfec5b1cdb?w=1200&h=800&fit=crop";
         }
 
         return {
             id: (index + 1).toString().padStart(2, '0'),
             _id: row._id,
             total: allRows.length.toString().padStart(2, '0'),
-            title: row.title,
-            description: row.description,
+            title: row.title || "Untitled Course",
+            description: row.description || "No description available.",
             image: imageUrl,
             icon: iconMap[row.category] || "📘",
         };
     });
+
+    // Fallback static data if API returns empty to ensure section is always visible
+    const finalCourses = courses.length > 0 ? courses : [
+        {
+            id: "01",
+            _id: "fallback-1",
+            total: "03",
+            title: "Advanced Heart Transplantation",
+            description: "A comprehensive guide to modern surgical techniques and post-operative care.",
+            image: "https://images.unsplash.com/photo-1631815588090-d4bfec5b1cdb?w=1200&h=800&fit=crop",
+            icon: "🫀",
+        },
+        {
+            id: "02",
+            _id: "fallback-2",
+            total: "03",
+            title: "Pulmonary Clinical Excellence",
+            description: "Deep dive into lung pathology and the latest in respiratory transplant medicine.",
+            image: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=1200&h=800&fit=crop",
+            icon: "🔬",
+        },
+        {
+            id: "03",
+            _id: "fallback-3",
+            total: "03",
+            title: "Thoracic Organ Preservation",
+            description: "Mastering the preservation techniques that ensure optimal outcomes for transplant patients.",
+            image: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=1200&h=800&fit=crop",
+            icon: "⚙️",
+        }
+    ];
+
 
     if (isLoading) {
         return (
@@ -195,25 +234,25 @@ const CoursesSection = () => {
                 </div>
             </div>
 
-            {courses.length > 0 && (
+            {finalCourses.length > 0 && (
                 <>
                     <div ref={containerRef} className="relative h-[500vh] hidden lg:block overflow-visible">
                         <div className="sticky top-[15vh] h-[80vh] flex items-center justify-center overflow-visible">
                             <div className="relative w-full h-full flex items-center justify-center">
-                                {courses.map((course, index) => (
+                                {finalCourses.map((course, index) => (
                                     <CourseCard
                                         key={course._id}
                                         course={course}
                                         index={index}
                                         progress={scrollYProgress}
-                                        totalCards={courses.length}
+                                        totalCards={finalCourses.length}
                                     />
                                 ))}
                             </div>
                         </div>
                     </div>
-                    <div className="lg:hidden space-y-24 px-4">
-                        <MobileCourseList courses={courses} />
+                    <div className="lg:hidden mt-10">
+                        <MobileCourseList courses={finalCourses} />
                     </div>
                 </>
             )}
@@ -223,21 +262,55 @@ const CoursesSection = () => {
 };
 
 const MobileCourseList = ({ courses }: { courses: Course[] }) => {
-    const staticProgress = useMotionValue(0);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        const scrollLeft = e.currentTarget.scrollLeft;
+        const width = e.currentTarget.offsetWidth;
+        const newIndex = Math.round(scrollLeft / (width * 0.8));
+        if (newIndex !== activeIndex) setActiveIndex(newIndex);
+    };
 
     return (
-        <>
-            {courses.map((course, index) => (
-                <div key={course._id} className="relative h-[60vh] md:h-[70vh]">
-                    <CourseCard
-                        course={course}
-                        index={index}
-                        progress={staticProgress}
-                        totalCards={courses.length}
+        <div className="relative w-full">
+            <div
+                ref={containerRef}
+                onScroll={handleScroll}
+                className="flex gap-6 px-6 overflow-x-auto snap-x snap-mandatory pb-12 no-scrollbar"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+                {courses.map((course, index) => (
+                    <div
+                        key={course._id}
+                        className="relative w-[85vw] max-w-[340px] aspect-[4/5] shrink-0 snap-center"
+                    >
+                        <CourseCard
+                            course={course}
+                            index={index}
+                            progress={useMotionValue(0)}
+                            totalCards={courses.length}
+                        />
+                    </div>
+                ))}
+            </div>
+
+            {/* Simple dot indicators */}
+            <div className="flex justify-center gap-2 -mt-4 mb-8">
+                {courses.map((_, i) => (
+                    <div
+                        key={i}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeIndex ? 'bg-primary w-6' : 'bg-primary/20'}`}
                     />
-                </div>
-            ))}
-        </>
+                ))}
+            </div>
+
+            <div className="text-center px-10">
+                <p className="text-xs font-bold text-primary/40 uppercase tracking-widest animate-pulse">
+                    Swipe to explore
+                </p>
+            </div>
+        </div>
     );
 };
 

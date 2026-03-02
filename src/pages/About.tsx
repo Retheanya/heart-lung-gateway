@@ -168,7 +168,7 @@ const About = () => {
                         badgeIcon={UserCheck}
                         badgeText="Professional Network"
                         title="Membership Details"
-                        text="Membership: Life membership is available for specialized medical professionals like cardiologists, pulmonologists, and surgeons dedicated to elevating the standard of thoracic transplantation in India."
+                        text="Membership: Life membership is available for specialized medical professionals like cardiologists, pulmonologists, surgeons, and intensive care specialists dedicated to elevating the standard of thoracic transplantation in India."
                         image="https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800"
                     />
                 </div>

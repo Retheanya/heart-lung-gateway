@@ -121,7 +121,7 @@ const Footer = () => {
                                 </div>
                                 <div>
                                     <p className="text-[14px] font-bold text-white/90">Support</p>
-                                    <p className="text-white/40 text-[13px] font-medium mt-1 break-all">support_INHFT@gmail.com</p>
+                                    <p className="text-white/40 text-[13px] font-medium mt-1 break-all">aiimscardiology@gmail.com</p>
                                 </div>
                             </div>
                         </div>

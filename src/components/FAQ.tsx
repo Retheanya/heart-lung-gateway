@@ -1,6 +1,7 @@
 import { Plus, Minus, ChevronsRight, HelpCircle } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import faqImage from "../assets/faq1.png";
 
 const FAQ = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
@@ -53,11 +54,11 @@ const FAQ = () => {
                     </div>
 
                     {/* CALL TO ACTION BOX */}
-                    <div className="relative w-full max-w-[450px] aspect-[1.5/1] rounded-[2rem] overflow-hidden group mt-8">
+                    <div className="relative w-full max-w-[450px] aspect-[1.5/1] rounded-[2rem] overflow-hidden group mt-8 shadow-xl">
                         {/* Background Image */}
                         <img
-                            src="/faq-doctor.jpg"
-                            alt="Doctor ready to assist"
+                            src={faqImage}
+                            alt="Medical professional assist"
                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         {/* Overlay */}

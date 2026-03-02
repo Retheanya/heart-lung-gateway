@@ -1,6 +1,7 @@
 import { Heart, Award } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import videoHero from "../assets/videohero.mp4";
 
 const WhyChooseUs = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -26,13 +27,20 @@ const WhyChooseUs = () => {
         >
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
 
-                {/* LEFT IMAGE */}
-                <div className="flex justify-start">
-                    <img
-                        src="/doctor.jpg"
-                        alt="Medical Education"
-                        className="w-full max-w-[520px] h-[620px] object-cover rounded-[28px]"
-                    />
+                {/* LEFT IMAGE / VIDEO */}
+                <div className="flex justify-center lg:justify-start w-full">
+                    <div className="relative w-full max-w-[480px] aspect-[4/5] rounded-[2rem] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] border border-white/50 bg-[#0A0F1E]">
+                        <video
+                            src={videoHero}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        />
+                        {/* Subtle inner shadow for depth */}
+                        <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_80px_rgba(0,0,0,0.3)]" />
+                    </div>
                 </div>
 
                 {/* RIGHT CONTENT */}

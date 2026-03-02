@@ -128,8 +128,7 @@ const Contact = () => {
                                         </div>
                                         <div>
                                             <h4 className="text-lg font-bold text-gray-900 mb-1">Phone</h4>
-                                            <p className="text-gray-600">+91 123 456 7890</p>
-                                            {/* <p className="text-sm text-gray-400 mt-1">Mon-Fri from 10am to 6pm.</p> */}
+                                            <p className="text-gray-600">+91 9650929005</p>
                                         </div>
                                     </div>
 
@@ -139,7 +138,7 @@ const Contact = () => {
                                         </div>
                                         <div>
                                             <h4 className="text-lg font-bold text-gray-900 mb-1">Email</h4>
-                                            <p className="text-gray-600">support@inshltindia.org</p>
+                                            <p className="text-gray-600">aiimscardiology@gmail.com</p>
                                             <p className="text-sm text-gray-400 mt-1">Our team will respond within 24 hours.</p>
                                         </div>
                                     </div>
@@ -150,7 +149,7 @@ const Contact = () => {
                                         </div>
                                         <div>
                                             <h4 className="text-lg font-bold text-gray-900 mb-1">Office</h4>
-                                            <p className="text-gray-600">XXX XXX, India</p>
+                                            <p className="text-gray-600">New Delhi, India</p>
                                             <p className="text-sm text-gray-400 mt-1">Come say hello at our headquarters.</p>
                                         </div>
                                     </div>
@@ -162,7 +161,7 @@ const Contact = () => {
                                         <p className="text-gray-400 mb-6 leading-relaxed">
                                             We offer specialized assistance for organ transplant professionals and medical institutions.
                                         </p>
-                                        <a href="tel:+911234567890" className="inline-flex items-center text-primary font-bold hover:gap-2 transition-all">
+                                        <a href="tel:+919650929005" className="inline-flex items-center text-primary font-bold hover:gap-2 transition-all">
                                             Call Support Now <span className="ml-2">→</span>
                                         </a>
                                     </div>

@@ -16,7 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const infoCards = [
-    { icon: Mail, label: "Email", value: "support_INHFT@gmail.com" },
+    { icon: Mail, label: "Email", value: "aiimscardiology@gmail.com" },
     { icon: Phone, label: "Phone", value: "+91 9650929005" },
     { icon: MapPin, label: "Location", value: "New Delhi, India" },
 ];
@@ -47,7 +47,9 @@ const Register = () => {
         queryFn: getCourses,
     });
 
-    const coursesList = coursesData?.data?.rows || [];
+    // More robust mapping to handle different API response structures
+    const allRowsArr = coursesData?.data?.rows || coursesData?.rows || coursesData?.data || (Array.isArray(coursesData) ? coursesData : []);
+    const coursesList = Array.isArray(allRowsArr) ? allRowsArr : [];
 
     useEffect(() => {
         const idToSelect = paramId || stateId || courseIdFromQuery;
@@ -141,7 +143,7 @@ const Register = () => {
                         </motion.div>
 
                         {/* Contact cards */}
-                            {/* <motion.div
+                        {/* <motion.div
                                 initial={{ opacity: 0, y: 12 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2, duration: 0.4 }}

@@ -184,10 +184,10 @@ const ContactSection = () => {
                             <h3 className="text-lg font-bold text-gray-900 mb-1">General Support</h3>
                             <p className="text-sm text-gray-500 mb-4">For general inquiries and assistance</p>
                             <a
-                                href="mailto:support_INHFT@gmail.com"
+                                href="mailto:aiimscardiology@gmail.com"
                                 className="text-lg font-bold text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-2 break-all"
                             >
-                                support_INHFT@gmail.com
+                                aiimscardiology@gmail.com
                             </a>
                         </div>
                     </motion.div>

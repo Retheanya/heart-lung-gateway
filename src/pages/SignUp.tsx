@@ -4,8 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-// Replaced missing local asset with high-quality medical image
-const signupHero = "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200&h=1600&fit=crop";
+import signupHero from "@/assets/signupHero.png";
 import { useState } from "react";
 import { register } from "@/api/auth";
 import { toast } from "sonner";

@@ -24,7 +24,7 @@ const allNavLinks = [
   { label: "About INSHLT", href: "/about" },
   { label: "Courses", href: "/courses" },
   { label: "Register", href: "/register" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const Header = () => {

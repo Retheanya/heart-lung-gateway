@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { getEnrolledCourse } from "@/api/courses";
+import { motion } from "framer-motion";
 
 export default function CoursePlayer() {
     const { id } = useParams();
@@ -89,8 +90,8 @@ export default function CoursePlayer() {
                             )}
                             <div className="flex items-center gap-1.5">
                                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                                <span className="text-[8px] md:text-[10px] font-black text-green-500 uppercase tracking-widest">
-                                    {course.status === 1 ? "ACTIVE" : "INACTIVE"}
+                                <span className="text-[10px] md:text-[11px] font-bold text-green-600 tracking-tight">
+                                    {course.status === 1 ? "Active" : "Inactive"}
                                 </span>
                             </div>
                         </div>
@@ -106,10 +107,10 @@ export default function CoursePlayer() {
                         <Clock size={14} className="text-gray-400" />
                         <span>{course.startTime || "-"}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-gray-900 text-sm md:text-base font-black">
+                    {/* <div className="flex items-center gap-1 text-gray-900 text-sm md:text-base font-black">
                         <IndianRupee size={16} />
                         <span>{(course.price ?? 0).toLocaleString('en-IN')}</span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -122,6 +123,8 @@ export default function CoursePlayer() {
                             <video
                                 key={videoSource}
                                 controls
+                                controlsList="nodownload"
+                                onContextMenu={(e) => e.preventDefault()}
                                 autoPlay={false}
                                 className="w-full h-full object-contain"
                                 poster={posterImage || undefined}
@@ -142,7 +145,7 @@ export default function CoursePlayer() {
                             <div className="absolute top-4 left-4 md:top-6 md:left-6 pointer-events-none">
                                 <div className="bg-black/40 backdrop-blur-md px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl flex items-center gap-2 border border-white/10 shadow-lg">
                                     <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
-                                    <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-widest">
+                                    <span className="text-[10px] md:text-[11px] font-bold text-white tracking-tight">
                                         Module {activeModule.number || activeModuleIndex + 1}: {activeModule.title}
                                     </span>
                                 </div>
@@ -179,7 +182,7 @@ export default function CoursePlayer() {
                             {/* Highlights */}
                             {highlights.length > 0 && (
                                 <div>
-                                    <h3 className="text-xs font-black text-gray-900 uppercase tracking-widest mb-3">Highlights</h3>
+                                    <h3 className="text-[13px] md:text-[15px] font-bold text-red-600 tracking-tight mb-3">Highlights</h3>
                                     <div className="flex flex-wrap gap-2">
                                         {highlights.map((highlight: string, i: number) => (
                                             <div key={i} className="flex items-center gap-2 px-3 py-2 bg-emerald-50 rounded-xl border border-emerald-100">
@@ -300,9 +303,7 @@ export default function CoursePlayer() {
                                                     {module.pdfUploads?.length ? ` · ${module.pdfUploads.length} PDF${module.pdfUploads.length !== 1 ? 's' : ''}` : ''}
                                                 </p>
                                             </div>
-                                            {activeModuleIndex === mIndex && (
-                                                <Play size={14} fill="currentColor" className="text-primary shrink-0" />
-                                            )}
+
                                         </div>
                                     </button>
 

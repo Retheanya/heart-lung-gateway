@@ -1,6 +1,8 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import aboutsectionGif from "@/assets/aboutsection.gif";
+import membershipImage from "@/assets/membership.png";
+import section3Img from "@/assets/section3.png";
 import { motion } from "framer-motion";
 import { Stethoscope, Calendar, Activity, UserCheck, Heart, LucideIcon, LucideProps } from "lucide-react";
 
@@ -158,9 +160,9 @@ const About = () => {
                         badgeText="Data Initiatives"
                         title="Heart & Lung Registry"
                         text="The society launched a full registry in 2024, modeled after UNOS and ISHLT standards, to consolidate nationwide transplant data and improve longitudinal patient outcomes."
-                        image={aboutsectionGif}
+                        image={section3Img}
                         reverse={true}
-                        isGif={true}
+                        isGif={false}
                     />
 
                     {/* SECTION 5: MEMBERSHIP */}
@@ -169,7 +171,7 @@ const About = () => {
                         badgeText="Professional Network"
                         title="Membership Details"
                         text="Membership: Life membership is available for specialized medical professionals like cardiologists, pulmonologists, surgeons, and intensive care specialists dedicated to elevating the standard of thoracic transplantation in India."
-                        image="https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800"
+                        image={membershipImage}
                     />
                 </div>
             </main>

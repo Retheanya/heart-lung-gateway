@@ -15,12 +15,12 @@ const contactPersons: ContactPerson[] = [
     },
     {
         name: "Dr Dhiren Shah",
-        email: "",
+        email: "aiimscardiology@gmail.com",
         phone: "9825575933",
     },
     {
         name: "Dr Ravi Kumar",
-        email: "",
+        email: "aiimscardiology@gmail.com",
         phone: "9840955600",
     },
 ];
@@ -28,7 +28,7 @@ const contactPersons: ContactPerson[] = [
 const ContactSection = () => {
     // 1. SECTION ENTRY
     const sectionVariants = {
-        hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
+        hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
         visible: {
             opacity: 1,
             y: 0,
@@ -36,18 +36,19 @@ const ContactSection = () => {
             transition: {
                 duration: 0.8,
                 ease: "easeOut",
-                staggerChildren: 0.12,
-                delayChildren: 0.2, // Wait for section to start appearing
+                staggerChildren: 0.15,
+                delayChildren: 0.1,
             } as const,
         },
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
+        hidden: { opacity: 0, y: 30, scale: 0.95 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.5, ease: "easeOut" } as const,
+            scale: 1,
+            transition: { type: "spring", stiffness: 100, damping: 20 } as const,
         },
     };
 
@@ -87,7 +88,7 @@ const ContactSection = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={sectionVariants}
-            className="relative pt-4 lg:pt-8 pb-12 lg:pb-20 bg-gradient-to-b from-white to-gray-50/50 overflow-hidden"
+            className="relative pt-0 pb-12 lg:pb-20 bg-gradient-to-b from-white to-gray-50/50 overflow-hidden"
         >
             {/* --- Diagnostic Scan Line --- */}
             <motion.div
@@ -114,8 +115,13 @@ const ContactSection = () => {
                     {/* 1. Header Section */}
                     <div className="lg:col-span-5 flex flex-col justify-center">
                         <motion.div variants={itemVariants} className="space-y-4 mb-8 lg:mb-0">
-                            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-wider">
-                                <Mail size={14} />
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                                <motion.div
+                                    animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                >
+                                    <Mail size={16} />
+                                </motion.div>
                                 Get In Touch
                             </span>
                             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
@@ -127,91 +133,93 @@ const ContactSection = () => {
                         </motion.div>
                     </div>
 
-                    {/* 2. Dr Sandeep Seth (Full Width of Right Area -> col-span-7) */}
+                    {/* 2. General Support Card (col-span-7) */}
                     <motion.div
                         variants={itemVariants}
-                        className="lg:col-span-7 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 group h-full flex flex-col justify-between"
+                        whileHover={{ y: -8, transition: { type: "spring", stiffness: 300, damping: 20 } }}
+                        className="lg:col-span-7 bg-white rounded-3xl p-8 border border-gray-100 shadow-xl shadow-gray-100/50 relative overflow-hidden group h-full flex flex-col justify-center transition-shadow hover:shadow-2xl hover:shadow-primary/20"
                     >
-                        <div className="flex items-start justify-between mb-6">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-700 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                                    <User className="w-6 h-6 sm:w-7 sm:h-7" />
-                                </div>
-                                <div>
-                                    <h4 className="text-lg sm:text-lg font-bold text-gray-900 leading-tight mb-1">{contactPersons[0].name}</h4>
-                                    <p className="text-xs font-semibold text-primary uppercase tracking-wide">Specialist</p>
-                                </div>
-                            </div>
-                        </div>
+                        {/* Animated Background Mesh & Gradients */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white via-primary/[0.03] to-white opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0" />
+                        <div className="absolute inset-0 opacity-30 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none z-0" />
 
-                        <div className="space-y-3">
-                            <a
-                                href={`tel:${contactPersons[0].phone}`}
-                                className="flex items-center gap-3 p-3 rounded-xl bg-gray-50/50 hover:bg-gray-50 text-gray-600 font-medium transition-colors group/item"
+                        {/* Floating Blobs */}
+                        <motion.div
+                            className="absolute -top-16 -right-16 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none z-0"
+                            animate={{ scale: [1, 1.2, 1], x: [0, -20, 0], y: [0, 20, 0] }}
+                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                        <motion.div
+                            className="absolute -bottom-20 -left-20 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none z-0"
+                            animate={{ scale: [1, 1.3, 1], x: [0, 30, 0], y: [0, -30, 0] }}
+                            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        />
+
+                        {/* Top-Right Corner Shape */}
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-700 ease-out z-0" />
+
+                        <div className="relative z-10 flex flex-col items-start">
+                            <motion.div
+                                whileHover={{ rotate: 10, scale: 1.1 }}
+                                className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 shadow-sm group-hover:bg-primary group-hover:text-white group-hover:shadow-primary/30 transition-all duration-300"
                             >
-                                <Phone className="w-4 h-4 text-gray-400 group-hover/item:text-primary transition-colors" />
-                                <span className="text-sm">{contactPersons[0].phone}</span>
-                            </a>
-
-                            {contactPersons[0].email ? (
-                                <a
-                                    href={`mailto:${contactPersons[0].email}`}
-                                    className="flex items-center gap-3 p-3 rounded-xl bg-gray-50/50 hover:bg-gray-50 text-gray-600 font-medium transition-colors group/item"
-                                >
-                                    <Mail className="w-4 h-4 text-gray-400 group-hover/item:text-primary transition-colors" />
-                                    <span className="text-sm break-all">{contactPersons[0].email}</span>
-                                </a>
-                            ) : (
-                                <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50/50 text-gray-400">
-                                    <Mail className="w-4 h-4" />
-                                    <span className="text-sm opacity-0 select-none">No email</span>
-                                </div>
-                            )}
-                        </div>
-                    </motion.div>
-
-                    {/* 3. General Support Card (col-span-4) */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="lg:col-span-4 bg-white rounded-3xl p-8 border border-gray-100 shadow-xl shadow-gray-100/50 relative overflow-hidden group h-full flex flex-col justify-center"
-                    >
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110 duration-500" />
-
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6">
-                                <Mail className="w-6 h-6" />
-                            </div>
-                            <h3 className="text-lg font-bold text-gray-900 mb-1">General Support</h3>
-                            <p className="text-sm text-gray-500 mb-4">For general inquiries and assistance</p>
+                                <Mail className="w-6 h-6 sm:w-7 sm:h-7" />
+                            </motion.div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2 truncate max-w-full">General Support</h3>
+                            <p className="text-sm text-gray-500 mb-6 font-medium">For general inquiries, membership details and overarching surgical assistance</p>
                             <a
                                 href="mailto:aiimscardiology@gmail.com"
-                                className="text-lg font-bold text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-2 break-all"
+                                className="mt-auto px-5 py-3 rounded-xl bg-gray-50 hover:bg-primary hover:text-white text-gray-800 text-sm font-bold transition-all duration-300 inline-flex items-center gap-2 border border-gray-100 hover:border-primary w-fit shadow-sm hover:shadow-lg hover:shadow-primary/25 break-all group/btn"
                             >
+                                <Mail className="w-4 h-4 text-primary group-hover/btn:text-white transition-colors" />
                                 aiimscardiology@gmail.com
                             </a>
                         </div>
                     </motion.div>
 
-                    {/* 4. Specialist Cards (Dhiren & Ravi) - col-span-4 each */}
-                    {contactPersons.slice(1).map((person) => (
+                    {/* 3. Specialist Cards (Sandeep, Dhiren & Ravi) - col-span-4 each */}
+                    {contactPersons.map((person, index) => (
                         <motion.div
                             key={person.name}
                             variants={itemVariants}
-                            className="lg:col-span-4 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 group h-full flex flex-col justify-between"
+                            whileHover={{ y: -6, transition: { type: "spring", stiffness: 300, damping: 20 } }}
+                            className="lg:col-span-4 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-primary/20 group h-full flex flex-col justify-between relative overflow-hidden"
                         >
-                            <div className="flex items-start justify-between mb-6">
+                            {/* Animated Background Mesh & Gradients */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white via-primary/[0.03] to-white opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0" />
+                            <div className="absolute inset-0 opacity-30 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none z-0" />
+
+                            {/* Floating Blobs with unique delays per card */}
+                            <motion.div
+                                className="absolute -top-12 -right-12 w-48 h-48 bg-primary/20 rounded-full blur-3xl pointer-events-none z-0"
+                                animate={{ scale: [1, 1.2, 1], x: [0, -15, 0], y: [0, 15, 0] }}
+                                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: index * 0.5 }}
+                            />
+                            <motion.div
+                                className="absolute -bottom-16 -left-16 w-56 h-56 bg-rose-500/10 rounded-full blur-3xl pointer-events-none z-0"
+                                animate={{ scale: [1, 1.3, 1], x: [0, 20, 0], y: [0, -20, 0] }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: (index * 0.5) + 1 }}
+                            />
+
+                            {/* Top-Right Corner Shape */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-700 ease-out z-0" />
+
+                            <div className="flex items-start justify-between mb-6 relative z-10">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-700 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                                    <motion.div
+                                        whileHover={{ rotate: 10, scale: 1.1 }}
+                                        className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-700 shadow-sm group-hover:bg-primary group-hover:text-white group-hover:shadow-primary/30 transition-all duration-300"
+                                    >
                                         <User className="w-6 h-6 sm:w-7 sm:h-7" />
-                                    </div>
+                                    </motion.div>
                                     <div>
                                         <h4 className="text-lg sm:text-lg font-bold text-gray-900 leading-tight mb-1">{person.name}</h4>
-                                        <p className="text-xs font-semibold text-primary uppercase tracking-wide">Specialist</p>
+                                        <p className="text-xs font-semibold text-primary tracking-wide">Specialist</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="space-y-3">
+                            <div className="space-y-3 relative z-10 mt-auto">
                                 <a
                                     href={`tel:${person.phone}`}
                                     className="flex items-center gap-3 p-3 rounded-xl bg-gray-50/50 hover:bg-gray-50 text-gray-600 font-medium transition-colors group/item"

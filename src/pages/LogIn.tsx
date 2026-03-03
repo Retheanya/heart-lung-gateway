@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import signupHero from "@/assets/signupHero.png";
+import loginImage from "@/assets/login.jpeg";
 import { useState } from "react";
 import { learnerLogin } from "@/api/auth";
 import { toast } from "sonner";
@@ -158,7 +158,7 @@ const LogIn = () => {
                     >
                         <div className="absolute inset-0 bg-gray-100 rounded-[40px] lg:rounded-[60px] overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.01]">
                             <img
-                                src={signupHero}
+                                src={loginImage}
                                 alt="Professional working on laptop"
                                 className="w-full h-full object-cover object-center"
                             />

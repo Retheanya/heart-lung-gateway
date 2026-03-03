@@ -38,7 +38,12 @@ const FAQ = () => {
                     {/* BADGE */}
                     <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-block">
                         <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
-                            <HelpCircle size={16} className="animate-pulse" />
+                            <motion.div
+                                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <HelpCircle size={16} />
+                            </motion.div>
                             FAQ's
                         </span>
                     </motion.div>
@@ -53,29 +58,29 @@ const FAQ = () => {
                         </p>
                     </div>
 
-                    {/* CALL TO ACTION BOX */}
-                    <div className="relative w-full max-w-[450px] aspect-[1.5/1] rounded-[2rem] overflow-hidden group mt-8 shadow-xl">
+                    {/* CALL TO ACTION BOX - MATCHED NEUTRAL BACKGROUND */}
+                    <div className="relative w-full max-w-[450px] aspect-[1.5/1] rounded-[2rem] overflow-hidden group mt-6 shadow-xl bg-[#CDD1D4]">
                         {/* Background Image */}
                         <img
                             src={faqImage}
                             alt="Medical professional assist"
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="absolute inset-y-0 -right-20 w-[120%] h-full object-cover object-center transition-transform duration-700 group-hover:scale-110 group-hover:-translate-x-2 filter saturate-[2] brightness-[1.05] contrast-[1.1]"
                         />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+                        {/* Soft Gradient Overlay for Readability */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#CDD1D4] via-[#CDD1D4]/60 to-transparent" />
 
                         {/* Content Overlay */}
-                        <div className="relative h-full p-8 flex flex-col justify-between items-start text-white">
+                        <div className="relative h-full p-8 flex flex-col justify-between items-start text-gray-900">
                             <div className="space-y-2">
                                 <h3 className="text-2xl font-bold tracking-tight">Still Have Questions?</h3>
-                                <p className="text-white/80 text-sm leading-relaxed max-w-[220px]">
+                                <p className="text-gray-600 text-sm leading-relaxed max-w-[220px] font-medium">
                                     Our team is here to help answer any specific questions about our certification programs.
                                 </p>
                             </div>
 
-                            <a href="#contact" className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all duration-300 hover:gap-5 shadow-lg shadow-primary/20">
+                            <a href="#contact" className="bg-primary hover:bg-primary/90 text-white px-7 py-3 rounded-full flex items-center gap-3 transition-all duration-300 hover:gap-5 shadow-lg shadow-primary/25">
                                 <ChevronsRight size={18} />
-                                <span className="text-sm font-bold tracking-wide">Contact Us Now</span>
+                                <span className="text-sm font-black uppercase tracking-wide">Contact Us Now</span>
                             </a>
                         </div>
                     </div>

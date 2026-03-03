@@ -38,7 +38,7 @@ export default function MyCourses() {
     const [currentPage, setCurrentPage] = useState(1);
     const [showPaymentPendingDialog, setShowPaymentPendingDialog] = useState(false);
 
-    const COMPANY_EMAIL = "support_INHFT@gmail.com";
+    const COMPANY_EMAIL = "aiimscardiology@gmail.com";
     const COMPANY_PHONE = "+91 9650929005";
     const itemsPerPage = 6;
 

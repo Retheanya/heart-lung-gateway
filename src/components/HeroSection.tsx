@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 import { PrimaryButton } from "@/components/ui/primary-button";
 import { Badge } from "@/components/ui/badge";
@@ -45,11 +45,17 @@ const HeroSection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <Badge variant="secondary" className="px-3 py-1 text-sm font-medium text-primary bg-primary/10 border-primary/20 hover:bg-primary/20 transition-colors">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <Sparkles size={16} />
+                    </motion.div>
                     Welcome to INSHLT Learning
-                  </Badge>
+                  </div>
                 </motion.div>
-                
+
                 {/* Main Heading */}
                 <motion.h1
                   initial={{ opacity: 0, y: 30 }}
@@ -71,7 +77,7 @@ const HeroSection = () => {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="text-muted-foreground text-lg leading-relaxed max-w-xl"
                 >
-                  Industry-led certification programs with live expert sessions, clinical insights, assessments, and recognized certification from INSHLT India.
+                  Certification programs with live expert sessions, clinical insights, assessments, and recognized certification from INSHLT India.
                 </motion.p>
 
                 {/* CTA Button + Trusted By */}
@@ -145,27 +151,42 @@ const HeroSection = () => {
                 </motion.div> */}
               </div>
 
-              {/* Right Image Carousel */}
+              {/* Right Image Container */}
               <motion.div
                 ref={heroRef}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative"
+                initial={{ opacity: 0, x: 50, scale: 0.9 }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  scale: 1,
+                  y: [0, -12, 0] // Floating effect
+                }}
+                transition={{
+                  opacity: { duration: 0.8, delay: 0.2 },
+                  x: { duration: 0.8, delay: 0.2 },
+                  scale: { duration: 0.8, delay: 0.2 },
+                  y: { duration: 5, repeat: Infinity, ease: "easeInOut" } // Infinite float
+                }}
+                className="relative perspective-1000"
               >
-                <div className="relative rounded-[2rem] overflow-hidden group">
+                <motion.div
+                  whileHover={{ scale: 1.02, rotateY: 5, rotateX: -2 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="relative rounded-[2rem] overflow-hidden group shadow-2xl shadow-primary/10 border border-white/20"
+                >
                   <img
                     src={heroc1}
                     alt="Medical professional"
-                    className="w-full h-[380px] lg:h-[440px] object-cover object-top transition-transform duration-700 scale-[1.05] origin-top-left"
-
+                    className="w-full h-[380px] lg:h-[480px] object-cover object-top transition-transform duration-1000 group-hover:scale-110"
                   />
-                  {/* Overlay to further ensure watermark is obscured if needed */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-                </div>
+                  {/* Modern Glassmorphic Glow Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+                </motion.div>
+              </motion.div>
 
-                {/* Stats Card - Square with scroll parallax */}
-                {/* <motion.div
+              {/* Stats Card - Square with scroll parallax */}
+              {/* <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
@@ -178,42 +199,11 @@ const HeroSection = () => {
                     satisfied with our education.
                   </p>
                 </motion.div> */}
-              </motion.div>
             </div>
           </div>
-
-          {/* Partners Section - Inside hero bg */}
-          {/* <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="pb-8 overflow-hidden"
-          >
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <div className="w-2 h-2 rounded-full bg-primary"></div>
-              <p className="text-primary font-medium text-sm">
-                Collaborating with 200+ Top Institutions Worldwide
-              </p>
-            </div>
-
-            <div className="relative">
-              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-hero to-transparent z-10 pointer-events-none"></div>
-              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-hero to-transparent z-10 pointer-events-none"></div>
-
-              <div className="flex animate-marquee">
-                {duplicatedPartners.map((partner, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors mx-8 shrink-0"
-                  >
-                    <span className="text-lg">{partner.icon}</span>
-                    <span className="font-semibold text-sm whitespace-nowrap">{partner.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div> */}
         </div>
+
+        {/* Partners Section - Inside hero bg */}
       </div>
 
       {/* CSS for marquee animation */}

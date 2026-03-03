@@ -1,129 +1,147 @@
-import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
-import { BookOpen, Loader2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { BookOpen, Clock, Tag, ArrowRight, Loader2, Heart, Activity, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getCourses } from "@/api/courses";
-
 
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'https://api.inshltcourse.com';
 
 interface Course {
     id: string;
-    total: string;
     title: string;
     description: string;
     image: string;
-    icon: string;
+    category: string;
+    duration?: string;
     _id: string;
+    type: 'heart' | 'lung' | 'general';
 }
 
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.1
+        }
+    }
+};
 
-const CourseCard = ({ course, index, progress, totalCards }: { course: Course, index: number, progress: any, totalCards: number }) => {
+const itemVariants = {
+    hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
+    visible: {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        transition: { type: "spring" as const, stiffness: 100, damping: 20 }
+    }
+};
 
-    const peelStart = 0.05; // Start earlier for better feedback
-    const peelEnd = 0.85; // End later to maintain visibility
-    const peelDuration = peelEnd - peelStart;
-    const cardSegment = peelDuration / totalCards;
-
-    const moveStart = peelStart + (index * cardSegment);
-    const moveEnd = moveStart + cardSegment * 0.8; // Faster peel movement
-
-    const direction = index % 2 === 0 ? 1500 : -1500;
-
-    const x = useTransform(progress, [moveStart, moveEnd], [0, direction], { clamp: true });
-    // Keep opacity 1 until the card is almost fully swiped out to prevent clashing content
-    const opacity = useTransform(progress, [moveStart, moveEnd - 0.1, moveEnd], [1, 1, 0], { clamp: true });
-
-    const rotations = [0, -6, 6, -10];
-    const scales = [1, 0.96, 0.92, 0.88];
-    const yOffsets = [0, -25, 25, -50];
-
-    const initialRotate = rotations[index % totalCards];
-    const initialScale = scales[index % totalCards];
-    const initialY = yOffsets[index % totalCards];
-
-    // Only show the card if it's nearing its turn or currently active
-    const isNearby = useTransform(progress, [moveStart - 0.3, moveStart], [0, 1], { clamp: true });
+const CourseCard = ({ course }: { course: Course }) => {
+    const isHeart = course.type === 'heart';
+    const accentColor = isHeart ? 'from-rose-50/50 to-white' : 'from-blue-50/50 to-white';
+    const borderColor = isHeart ? 'hover:border-rose-200' : 'hover:border-blue-200';
+    const glowColor = isHeart ? 'group-hover:shadow-rose-500/15' : 'group-hover:shadow-blue-500/15';
+    const Icon = isHeart ? Heart : Activity;
 
     return (
         <motion.div
-            style={{
-                x: typeof window !== 'undefined' && window.innerWidth > 768 ? x : 0,
-                y: typeof window !== 'undefined' && window.innerWidth > 768 ? initialY : 0,
-                opacity: typeof window !== 'undefined' && window.innerWidth > 768
-                    ? index === 0 ? opacity : (index === 1 ? isNearby : opacity)
-                    : 1,
-                rotate: initialRotate,
-                scale: initialScale,
-                zIndex: totalCards - index,
+            variants={itemVariants}
+            whileHover={{
+                y: -10,
+                scale: 1.02,
+                transition: { duration: 0.3, ease: "easeOut" }
             }}
-            className="absolute inset-0 flex items-center justify-center p-4 lg:p-0"
+            className={`group relative bg-white rounded-[2rem] border border-gray-100/80 shadow-sm transition-all duration-500 hover:shadow-2xl ${glowColor} ${borderColor} overflow-hidden flex flex-col h-full`}
         >
-            <Link
-                to={`/course-detail/${course._id}`}
-                className="relative w-full max-w-4xl lg:h-[70vh] rounded-[2.5rem] border-[6px] lg:border-[12px] border-primary/20 overflow-hidden shadow-2xl bg-white block group"
-            >
-                <img
+            {/* Context-aware background wash */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${accentColor} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
+
+            {/* Course Image & Overlay Banners */}
+            <div className="relative overflow-hidden h-48 shrink-0">
+                <motion.img
                     src={course.image}
                     alt={course.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.8 }}
                     onError={(e: any) => {
                         e.target.src = "https://images.unsplash.com/photo-1631815588090-d4bfec5b1cdb?w=1200&h=800&fit=crop";
                     }}
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                <div className="absolute top-6 right-8 bg-black/40 backdrop-blur-sm px-4 py-1.5 rounded-full z-10">
-                    <p className="text-white font-semibold text-base sm:text-lg">
-                        {course.id}<span className="text-white/60 mx-1">/</span>{course.total}
+                {/* Visual Anchor Badge - High Visibility */}
+                <div className={`absolute top-4 left-4 p-2.5 rounded-2xl bg-white shadow-xl border border-gray-100/50 z-20`}>
+                    <Icon
+                        size={20}
+                        className={`transition-colors ${isHeart ? 'text-rose-500' : 'text-primary'}`}
+                        strokeWidth={2.5}
+                    />
+                </div>
+
+                {/* Status Indicator */}
+                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-0.5 rounded-full border border-gray-100 shadow-sm">
+                    <div className="flex items-center gap-1.5">
+                        <div className="w-1 h-1 rounded-full bg-green-500 animate-ping" />
+                        <span className="text-[8px] font-black text-gray-900 uppercase tracking-tighter">Live</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Content Area */}
+            <div className="p-5 flex flex-col flex-1 relative z-10">
+                <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-2.5">
+                        <Sparkles size={12} className="text-primary animate-pulse" />
+                        <span className="text-[10px] font-semibold tracking-wide text-primary">
+                            Academic Track
+                        </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-primary transition-colors duration-300 line-clamp-2 min-h-[3rem]">
+                        {course.title}
+                    </h3>
+                    <p className="text-gray-500 text-[11px] leading-relaxed line-clamp-2 font-medium opacity-80 group-hover:opacity-100 transition-opacity">
+                        {course.description}
                     </p>
                 </div>
 
-                <div className="absolute bottom-10 left-6 lg:left-10 right-6 lg:right-auto max-w-sm bg-white rounded-3xl p-6 shadow-xl">
-                    <div className="flex items-start gap-4">
-                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-xl lg:text-2xl shrink-0">
-                            {course.icon}
-                        </div>
-                        <div>
-                            <h3 className="text-lg lg:text-xl font-bold text-foreground mb-1.5 line-clamp-2">
-                                {course.title}
-                            </h3>
-                            <p className="text-muted-foreground text-xs lg:text-sm leading-relaxed line-clamp-3">
-                                {course.description}
-                            </p>
-                        </div>
+                {/* Key Metadata Grid */}
+                <div className="flex items-center gap-4 pt-4 border-t border-gray-50 mb-5">
+                    <div className="flex items-center gap-1.5 text-gray-400 group-hover:text-gray-600 transition-colors">
+                        <Clock size={12} />
+                        <span className="text-[10px] font-bold">{course.duration || '6 Months'}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-gray-400 group-hover:text-gray-600 transition-colors">
+                        <Tag size={12} />
+                        <span className="text-[10px] font-bold">{course.category}</span>
                     </div>
                 </div>
-            </Link>
+
+                {/* Primary Action */}
+                <Link
+                    to="/courses"
+                    className="group/btn relative overflow-hidden w-full py-2.5 rounded-xl bg-gray-900 text-white text-[10px] font-black transition-all duration-300 hover:bg-primary hover:shadow-xl hover:shadow-primary/30 flex items-center justify-center gap-2"
+                >
+                    <span className="relative z-10">Access Curriculum</span>
+                    <ArrowRight size={12} className="relative z-10 group-hover/btn:translate-x-1 transition-transform" />
+                </Link>
+            </div>
         </motion.div>
     );
 };
 
-const iconMap: Record<string, string> = {
-    "Cardiology": "🫀",
-    "Vascular": "🔬",
-    "Ortho": "⚙️",
-    "General": "🏥",
-};
-
 const CoursesSection = () => {
-
-    const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end end"],
-    });
-
     const { data: apiResponse, isLoading, error } = useQuery({
         queryKey: ['courses'],
         queryFn: getCourses
     });
 
-    // More robust mapping to handle different API response structures
     const allRowsArr = apiResponse?.data?.rows || apiResponse?.rows || apiResponse?.data || (Array.isArray(apiResponse) ? apiResponse : []);
     const allRows = Array.isArray(allRowsArr) ? allRowsArr : [];
 
-    const courses: Course[] = allRows.map((row: any, index: number) => {
+    const courses: Course[] = allRows.map((row: any) => {
         let imageUrl = row.image;
         if (imageUrl && !imageUrl.startsWith('http')) {
             imageUrl = `${IMAGE_BASE_URL}${imageUrl}`;
@@ -132,185 +150,140 @@ const CoursesSection = () => {
             imageUrl = "https://images.unsplash.com/photo-1631815588090-d4bfec5b1cdb?w=1200&h=800&fit=crop";
         }
 
+        const title = row.title || "Untitled Course";
+        let type: 'heart' | 'lung' | 'general' = 'general';
+        if (title.toLowerCase().includes('heart')) type = 'heart';
+        else if (title.toLowerCase().includes('lung') || title.toLowerCase().includes('pulmon')) type = 'lung';
+
         return {
-            id: (index + 1).toString().padStart(2, '0'),
             _id: row._id,
-            total: allRows.length.toString().padStart(2, '0'),
-            title: row.title || "Untitled Course",
+            id: row.id || row._id,
+            title: title,
             description: row.description || "No description available.",
             image: imageUrl,
-            icon: iconMap[row.category] || "📘",
+            category: row.category || "Specialization",
+            duration: row.duration,
+            type: type
         };
     });
 
-    // Fallback static data if API returns empty to ensure section is always visible
-    const finalCourses = courses.length > 0 ? courses : [
-        {
-            id: "01",
-            _id: "fallback-1",
-            total: "03",
-            title: "Advanced Heart Transplantation",
-            description: "A comprehensive guide to modern surgical techniques and post-operative care.",
-            image: "https://images.unsplash.com/photo-1631815588090-d4bfec5b1cdb?w=1200&h=800&fit=crop",
-            icon: "🫀",
-        },
-        {
-            id: "02",
-            _id: "fallback-2",
-            total: "03",
-            title: "Pulmonary Clinical Excellence",
-            description: "Deep dive into lung pathology and the latest in respiratory transplant medicine.",
-            image: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=1200&h=800&fit=crop",
-            icon: "🔬",
-        },
-        {
-            id: "03",
-            _id: "fallback-3",
-            total: "03",
-            title: "Thoracic Organ Preservation",
-            description: "Mastering the preservation techniques that ensure optimal outcomes for transplant patients.",
-            image: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=1200&h=800&fit=crop",
-            icon: "⚙️",
-        }
-    ];
-
-
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-                <Loader2 className="w-10 h-10 text-primary animate-spin" />
-                <p className="text-muted-foreground animate-pulse font-medium">Discovering exceptional courses...</p>
+            <div className="bg-white py-32 flex flex-col items-center justify-center min-h-[500px] gap-6">
+                <div className="relative">
+                    <Loader2 className="w-12 h-12 text-primary animate-spin" />
+                    <div className="absolute inset-0 blur-xl bg-primary/20 animate-pulse rounded-full" />
+                </div>
+                <p className="text-gray-400 font-bold uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing Repository</p>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                    <p className="text-2xl">⚠️</p>
+            <div className="bg-white py-24 flex flex-col items-center justify-center min-h-[400px] text-center px-4">
+                <div className="w-20 h-20 bg-rose-50 rounded-3xl flex items-center justify-center mb-6 border border-rose-100">
+                    <Activity className="text-rose-500 w-10 h-10" />
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Unable to load courses</h3>
-                <p className="text-muted-foreground max-w-sm">
-                    We're having trouble connecting to our servers. Please check your connection and try again.
-                </p>
+                <h3 className="text-xl font-black text-gray-900 mb-2">Systems diagnostic failed</h3>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="mt-6 px-6 py-2 bg-primary text-white text-xs font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-105 transition-transform"
+                >
+                    Retry Connection
+                </button>
             </div>
         );
     }
 
     return (
-        <section id="courses" className="bg-hero/30 pt-20 lg:pt-32 pb-10 lg:pb-16">
-            <div className="container mx-auto px-4 mb-20">
-                <div className="text-center space-y-4 max-w-3xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-block"
-                    >
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 hover:bg-primary/10 transition-colors cursor-default">
-                            < BookOpen size={16} className="animate-pulse" />
-                            Featured Courses
-                        </span>
+        <section id="courses" className="bg-white pt-4 lg:pt-6 pb-12 lg:pb-16 relative overflow-hidden">
+            {/* Modern Aesthetic Background Elements */}
+            <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
+
+            {/* Animated Blobs for depth */}
+            <motion.div
+                animate={{
+                    x: [0, 50, 0],
+                    y: [0, 30, 0],
+                    scale: [1, 1.2, 1]
+                }}
+                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none"
+            />
+            <motion.div
+                animate={{
+                    x: [0, -40, 0],
+                    y: [0, 60, 0],
+                    scale: [1, 1.1, 1]
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-400/5 rounded-full blur-[120px] pointer-events-none"
+            />
+
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="container mx-auto px-4 lg:px-8 relative z-10"
+            >
+                {/* Refined Header Section */}
+                <div className="text-center max-w-4xl mx-auto mb-8 lg:mb-10">
+                    <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-semibold tracking-wider bg-primary/5 mb-6 hover:bg-primary/10 transition-colors cursor-default">
+                        <motion.div
+                            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                            <BookOpen size={16} />
+                        </motion.div>
+                        Featured Courses
                     </motion.div>
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-4xl lg:text-5xl font-bold text-foreground"
-                    >
-                        Expert Education for Cardiac Care
+
+                    <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight leading-tight mb-6">
+                        Expert Education for <span className="text-primary">Cardiac</span> Care
                     </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-muted-foreground text-lg"
-                    >
-                        We are dedicated to providing the most advanced training for medical professionals in heart and lung transplantation.
+
+                    <motion.p variants={itemVariants} className="text-gray-500 text-base font-medium max-w-2xl mx-auto">
+                        Pioneering the future of organ transplantation through world-class clinical training.
                     </motion.p>
                 </div>
-            </div>
 
-            {finalCourses.length > 0 && (
-                <>
-                    <div ref={containerRef} className="relative h-[500vh] hidden lg:block overflow-visible">
-                        <div className="sticky top-[15vh] h-[80vh] flex items-center justify-center overflow-visible">
-                            <div className="relative w-full h-full flex items-center justify-center">
-                                {finalCourses.map((course, index) => (
-                                    <CourseCard
-                                        key={course._id}
-                                        course={course}
-                                        index={index}
-                                        progress={scrollYProgress}
-                                        totalCards={finalCourses.length}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="lg:hidden mt-10">
-                        <MobileCourseList courses={finalCourses} />
-                    </div>
-                </>
-            )}
+                {/* Dynamics Grid with Flex Centering */}
+                <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
+                    <AnimatePresence mode="popLayout">
+                        {courses.map((course) => (
+                            <motion.div
+                                key={course._id}
+                                layout
+                                className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-2rem)] max-w-[400px]"
+                            >
+                                <CourseCard course={course} />
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </div>
 
-        </section>
-    );
-};
-
-const MobileCourseList = ({ courses }: { courses: Course[] }) => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-        const scrollLeft = e.currentTarget.scrollLeft;
-        const width = e.currentTarget.offsetWidth;
-        const newIndex = Math.round(scrollLeft / (width * 0.8));
-        if (newIndex !== activeIndex) setActiveIndex(newIndex);
-    };
-
-    return (
-        <div className="relative w-full">
-            <div
-                ref={containerRef}
-                onScroll={handleScroll}
-                className="flex gap-6 px-6 overflow-x-auto snap-x snap-mandatory pb-12 no-scrollbar"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-                {courses.map((course, index) => (
-                    <div
-                        key={course._id}
-                        className="relative w-[85vw] max-w-[340px] aspect-[4/5] shrink-0 snap-center"
+                {/* Fallback Connectivity View */}
+                {error && courses.length === 0 && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-center py-20 bg-gray-50/50 rounded-[4rem] border border-dashed border-gray-100 max-w-md mx-auto"
                     >
-                        <CourseCard
-                            course={course}
-                            index={index}
-                            progress={useMotionValue(0)}
-                            totalCards={courses.length}
-                        />
-                    </div>
-                ))}
-            </div>
-
-            {/* Simple dot indicators */}
-            <div className="flex justify-center gap-2 -mt-4 mb-8">
-                {courses.map((_, i) => (
-                    <div
-                        key={i}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeIndex ? 'bg-primary w-6' : 'bg-primary/20'}`}
-                    />
-                ))}
-            </div>
-
-            <div className="text-center px-10">
-                <p className="text-xs font-bold text-primary/40 uppercase tracking-widest animate-pulse">
-                    Swipe to explore
-                </p>
-            </div>
-        </div>
+                        <Activity className="w-12 h-12 text-rose-300 mx-auto mb-6 animate-pulse" />
+                        <h4 className="text-gray-900 font-bold mb-2">Diagnostic Interruption</h4>
+                        <p className="text-gray-400 text-xs font-medium mb-6">Unable to synchronize with medical archives.</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="px-8 py-3 bg-white border border-gray-100 rounded-2xl text-xs font-black shadow-sm hover:shadow-md transition-all active:scale-95"
+                        >
+                            Retry Handshake
+                        </button>
+                    </motion.div>
+                )}
+            </motion.div>
+        </section>
     );
 };
 

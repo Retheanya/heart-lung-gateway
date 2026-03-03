@@ -209,11 +209,9 @@ const Courses = () => {
 
                             {/* Instructor */}
                             <div className="flex items-center gap-3">
-                              <img
-                                src={course.instructorImg}
-                                alt={course.instructor}
-                                className="w-10 h-10 rounded-full ring-2 ring-white shadow-sm"
-                              />
+                              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold ring-2 ring-white shadow-sm shrink-0">
+                                I
+                              </div>
                               <div>
                                 <p className="font-bold text-[#0A291E] text-base leading-none">
                                   {course.instructor}

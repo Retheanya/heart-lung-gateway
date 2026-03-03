@@ -15,6 +15,7 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const LogIn = lazy(() => import("./pages/LogIn"));
 const About = lazy(() => import("./pages/About"));
 const Register = lazy(() => import("./pages/Register"));
+const Contact = lazy(() => import("./pages/Contact"));
 
 // Learner Dashboard Imports
 const LearnerDashboard = lazy(() => import("./pages/learners/Dashboard"));
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/login" element={<LogIn />} />
             <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/contact" element={<Contact />} />
 
             {/* Learner Dashboard Routes */}
             <Route path="/learners" element={<LearnerLayout />}>

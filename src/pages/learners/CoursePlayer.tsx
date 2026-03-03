@@ -122,10 +122,12 @@ export default function CoursePlayer() {
                             <video
                                 key={videoSource}
                                 controls
+                                controlsList="nodownload"
                                 autoPlay={false}
                                 className="w-full h-full object-contain"
                                 poster={posterImage || undefined}
                                 src={videoSource}
+                                onContextMenu={(e) => e.preventDefault()}
                             >
                                 Your browser does not support the video tag.
                             </video>

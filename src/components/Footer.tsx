@@ -25,7 +25,6 @@ const Footer = () => {
         { name: "Home", href: "/" },
         { name: "About INSHLT", href: "/about" },
         { name: "Courses", href: "/courses" },
-        { name: "Register", href: "/register" },
         { name: "Contact", href: "/#contact" }
     ];
 

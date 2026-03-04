@@ -19,11 +19,10 @@ import {
 } from "@/components/ui/dialog";
 import logo from "@/assets/logo.png";
 
-const allNavLinks = [
+const navLinks = [
   { label: "Home", href: "/" },
   { label: "About INSHLT", href: "/about" },
   { label: "Courses", href: "/courses" },
-  { label: "Register", href: "/register" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -38,11 +37,6 @@ const Header = () => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, [location]);
-
-  // Filter out "Register" link when logged in
-  const navLinks = isLoggedIn
-    ? allNavLinks.filter((link) => link.label !== "Register")
-    : allNavLinks;
 
   const isActive = (href: string) => {
     if (href === "/" && location.pathname === "/") return true;
@@ -76,9 +70,9 @@ const Header = () => {
                 <a
                   key={link.label}
                   href={link.href}
-                  className={`px-5 py-2.5 rounded-full text-base font-medium transition-colors duration-200 ${active
-                    ? "text-primary font-semibold relative before:absolute before:left-3 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary pl-7"
-                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                  className={`px-5 py-2.5 rounded-full text-base font-medium transition-all duration-300 relative flex items-center ${active
+                    ? "text-primary font-semibold before:absolute before:left-3 before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary pl-7"
+                    : "text-foreground/70 hover:text-primary hover:bg-muted"
                     }`}
                 >
                   {link.label}
@@ -87,9 +81,9 @@ const Header = () => {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className={`px-5 py-2.5 rounded-full text-base font-medium transition-colors duration-200 ${active
-                    ? "text-primary font-semibold relative before:absolute before:left-3 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary pl-7"
-                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                  className={`px-5 py-2.5 rounded-full text-base font-medium transition-all duration-300 relative flex items-center ${active
+                    ? "text-primary font-semibold before:absolute before:left-3 before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary pl-7"
+                    : "text-foreground/70 hover:text-primary hover:bg-muted"
                     }`}
                 >
                   {link.label}
@@ -167,7 +161,7 @@ const Header = () => {
                     href={link.href}
                     className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${active
                       ? "text-primary bg-secondary font-semibold"
-                      : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                      : "text-foreground/70 hover:text-primary hover:bg-muted"
                       }`}
                     onClick={() => setMobileOpen(false)}
                   >
@@ -179,7 +173,7 @@ const Header = () => {
                     to={link.href}
                     className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${active
                       ? "text-primary bg-secondary font-semibold"
-                      : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                      : "text-foreground/70 hover:text-primary hover:bg-muted"
                       }`}
                     onClick={() => setMobileOpen(false)}
                   >

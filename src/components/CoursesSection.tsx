@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Clock, Tag, ArrowRight, Loader2, Heart, Activity, Sparkles } from "lucide-react";
+import { BookOpen, Clock, Tag, ArrowRight, Loader2, Activity, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getCourses } from "@/api/courses";
@@ -43,7 +43,6 @@ const CourseCard = ({ course }: { course: Course }) => {
     const accentColor = isHeart ? 'from-rose-50/50 to-white' : 'from-blue-50/50 to-white';
     const borderColor = isHeart ? 'hover:border-rose-200' : 'hover:border-blue-200';
     const glowColor = isHeart ? 'group-hover:shadow-rose-500/15' : 'group-hover:shadow-blue-500/15';
-    const Icon = isHeart ? Heart : Activity;
 
     return (
         <motion.div
@@ -72,14 +71,6 @@ const CourseCard = ({ course }: { course: Course }) => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                {/* Visual Anchor Badge - High Visibility */}
-                <div className={`absolute top-4 left-4 p-2.5 rounded-2xl bg-white shadow-xl border border-gray-100/50 z-20`}>
-                    <Icon
-                        size={20}
-                        className={`transition-colors ${isHeart ? 'text-rose-500' : 'text-primary'}`}
-                        strokeWidth={2.5}
-                    />
-                </div>
 
                 {/* Status Indicator */}
                 <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-0.5 rounded-full border border-gray-100 shadow-sm">
@@ -121,10 +112,10 @@ const CourseCard = ({ course }: { course: Course }) => {
 
                 {/* Primary Action */}
                 <Link
-                    to="/courses"
+                    to={`/courses/${course._id}`}
                     className="group/btn relative overflow-hidden w-full py-2.5 rounded-xl bg-gray-900 text-white text-[10px] font-black transition-all duration-300 hover:bg-primary hover:shadow-xl hover:shadow-primary/30 flex items-center justify-center gap-2"
                 >
-                    <span className="relative z-10">Access Curriculum</span>
+                    <span className="relative z-10">View Program</span>
                     <ArrowRight size={12} className="relative z-10 group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
             </div>

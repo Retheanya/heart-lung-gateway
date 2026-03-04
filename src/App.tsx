@@ -16,11 +16,15 @@ const LogIn = lazy(() => import("./pages/LogIn"));
 const About = lazy(() => import("./pages/About"));
 const Register = lazy(() => import("./pages/Register"));
 const Contact = lazy(() => import("./pages/Contact"));
+const CourseDetail = lazy(() => import("./pages/CourseDetail"));
 
 // Learner Dashboard Imports
 const LearnerDashboard = lazy(() => import("./pages/learners/Dashboard"));
 const MyCourses = lazy(() => import("./pages/learners/MyCourses"));
 const CoursePlayer = lazy(() => import("./pages/learners/CoursePlayer"));
+
+// Admin Imports
+const ManageCourses = lazy(() => import("./pages/admin/ManageCourses"));
 
 const LoadingFallback = () => (
   <div className="min-h-screen bg-white flex items-center justify-center">
@@ -61,6 +65,11 @@ const App = () => (
             </Route>
 
             <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/:id" element={<CourseDetail />} />
+
+            {/* Admin Routes */}
+            <Route path="/admin/course/manage" element={<ManageCourses />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

@@ -1,20 +1,10 @@
-import { useRef } from "react";
-import uxiImage from "../assets/uxi.png";
-import coursesHeroBg from "../assets/modern_courses_bg.png";
-import {
-  Award,
-  Users,
-  Star,
-  Layout,
-  MonitorPlay,
-  Figma
-} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getCourses } from "@/api/courses";
-import { Loader2 } from "lucide-react";
+import { Loader2, Award, Star } from "lucide-react";
+import coursesHeroBg from "../assets/modern_courses_bg.png";
 
 
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'https://api.inshltcourse.com';
@@ -37,7 +27,7 @@ const Courses = () => {
     instructorRole: row.chairpersons?.[0]?.designation || "Expert Mentor",
     instructorImg: `https://i.pravatar.cc/150?u=${row._id}`,
     rating: 4.9,
-    reviews: row.learnerCount || 0,
+    reviews: Number(row.learnerCount) || 120,
     badge: row.categoryName || "Professional",
     image: row.image ? `${IMAGE_BASE_URL}${row.image}` : "https://images.unsplash.com/photo-1576091160550-217359f4ecf8?w=1200&h=800&fit=crop",
     skills: row.highlights?.map((h: string) => ({ name: h, icon: Award })) || [],
@@ -115,7 +105,6 @@ const Courses = () => {
       <main>
         {/* HERO SECTION */}
         <section className="relative h-[70vh] min-h-[500px] w-full flex items-center justify-center overflow-hidden">
-          {/* Background Image with Overlay */}
           <div className="absolute inset-0 z-0">
             <img
               src={coursesHeroBg}
@@ -248,12 +237,10 @@ const Courses = () => {
                           <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-end">
 
                             <Link
-                              to={`/register?courseId=${course.id}`}
-
+                              to={`/courses/${course.id}`}
                               className="w-full sm:w-auto px-10 py-4 rounded-full bg-primary text-white font-bold text-sm tracking-wide shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all duration-200 text-center"
                             >
-
-                              Enroll Now
+                              View Program
                             </Link>
                           </div>
                         </div>

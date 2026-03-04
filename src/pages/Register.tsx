@@ -166,213 +166,48 @@ const Register = () => {
                                 ))}
                             </motion.div> */}
 
-                        {/* Main content grid */}
-                        <div className="grid lg:grid-cols-[1fr_400px] gap-12 lg:gap-16 items-start">
-                            {/* Form card */}
-                            <motion.div
-                                initial={{ opacity: 0, x: -24 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.3, duration: 0.5 }}
-                                className="relative"
-                            >
-                                <div className="rounded-3xl bg-white/90 backdrop-blur-md border border-border/50 shadow-xl shadow-black/5 p-4 lg:p-4">
-                                    <form onSubmit={handleRegister} className="space-y-6">
-                                        <div className="grid md:grid-cols-2 gap-6">
-                                            <div className="space-y-2">
-                                                <label className="text-sm font-bold text-foreground">Full Name *</label>
-                                                <div className="relative">
-                                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                                                    <input
-                                                        type="text"
-                                                        value={name}
-                                                        onChange={(e) => setName(e.target.value)}
-                                                        placeholder="Enter your full name"
-                                                        className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-muted/40 border border-transparent focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/10 outline-none transition-all font-medium text-foreground placeholder:text-muted-foreground/60"
-                                                        required
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-sm font-bold text-foreground" id="email">Email Address *</label>
-                                                <div className="relative">
-                                                    <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                                                    <input
-                                                        type="email"
-                                                        id="email"
-                                                        value={email}
-                                                        onChange={(e) => setEmail(e.target.value)}
-                                                        placeholder="Enter email address"
-                                                        className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-muted/40 border border-transparent focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/10 outline-none transition-all font-medium text-foreground placeholder:text-muted-foreground/60"
-                                                        required
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-foreground">Phone Number *</label>
-                                            <div className="relative">
-                                                <PhoneCall className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                                                <input
-                                                    type="tel"
-                                                    value={phone}
-                                                    onChange={(e) => setPhone(e.target.value)}
-                                                    placeholder="Enter phone number"
-                                                    className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-muted/40 border border-transparent focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/10 outline-none transition-all font-medium text-foreground placeholder:text-muted-foreground/60"
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-foreground">Password *</label>
-                                            <div className="relative">
-                                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                                                <input
-                                                    type={showPassword ? "text" : "password"}
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    placeholder="Create a password"
-                                                    className="w-full pl-12 pr-12 py-3.5 rounded-xl bg-muted/40 border border-transparent focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/10 outline-none transition-all font-medium text-foreground placeholder:text-muted-foreground/60"
-                                                    required
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowPassword((p) => !p)}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 hover:text-muted-foreground transition-colors"
-                                                    aria-label={showPassword ? "Hide password" : "Show password"}
-                                                >
-                                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-foreground" id="select-program">Select Program *</label>
-                                            <Popover>
-                                                <PopoverTrigger asChild>
-                                                    <div className="w-full rounded-xl bg-muted/40 border border-transparent focus-within:border-primary/50 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/10 p-4 pl-4 pr-4 cursor-pointer flex flex-wrap gap-2 min-h-[56px] items-center transition-all relative">
-                                                        {/* <ChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50 pointer-events-none" /> */}
-                                                        {selectedCourses.length === 0 ? (
-                                                            <span className="text-muted-foreground/60 font-medium">Choose from our catalog</span>
-                                                        ) : (
-                                                            selectedCourses.map((id) => {
-                                                                const course = coursesList.find((c: any) => c._id === id);
-                                                                return (
-                                                                    <Badge
-                                                                        key={id}
-                                                                        variant="secondary"
-                                                                        className="bg-primary/10 text-primary border-primary/20 rounded-lg px-2.5 py-1 text-[10px] font-semibold line-clamp-2 max-w-[180px] break-words whitespace-normal block text-left"
-                                                                    >
-                                                                        {course?.title || "Selected Course"}
-                                                                    </Badge>
-                                                                );
-                                                            })
-                                                        )}
-                                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50 rotate-180 pointer-events-none" />
-                                                    </div>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 rounded-2xl border border-border/50 shadow-xl bg-white overflow-hidden" align="start">
-                                                    <ScrollArea className="h-72">
-                                                        <div className="p-2 space-y-0.5">
-                                                            {coursesLoading ? (
-                                                                <div className="p-8 flex items-center justify-center">
-                                                                    <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                                                                </div>
-                                                            ) : coursesList.length > 0 ? (
-                                                                coursesList.map((c: any) => (
-                                                                    <div
-                                                                        key={c._id}
-                                                                        onClick={() => toggleCourse(c._id)}
-                                                                        className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 cursor-pointer transition-colors"
-                                                                    >
-                                                                        <Checkbox
-                                                                            checked={selectedCourses.includes(c._id)}
-                                                                            onCheckedChange={() => toggleCourse(c._id)}
-                                                                            className="rounded border-muted-foreground/30 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                                                                        />
-                                                                        <div className="flex-1 min-w-0 overflow-hidden">
-                                                                            <span className={`text-xs font-semibold block line-clamp-2 break-words whitespace-normal ${selectedCourses.includes(c._id) ? "text-primary" : "text-foreground"}`}>
-                                                                                {c.title}
-                                                                            </span>
-                                                                            <span className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                                                                                {iconMap[c.category] || "📘"} {c.category || "General"}
-                                                                            </span>
-                                                                        </div>
-                                                                        {selectedCourses.includes(c._id) && <Check className="w-4 h-4 text-primary shrink-0" />}
-                                                                    </div>
-                                                                ))
-                                                            ) : (
-                                                                <div className="p-8 text-center text-sm text-muted-foreground">No active programs available.</div>
-                                                            )}
-                                                        </div>
-                                                    </ScrollArea>
-                                                </PopoverContent>
-                                            </Popover>
-                                        </div>
-                                        <div className="pt-4 space-y-6">
-                                            <Button
-                                                type="submit"
-                                                disabled={loading}
-                                                size="lg"
-                                                className="w-full rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground h-14 text-base font-bold shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all"
-                                            >
-                                                {loading ? (
-                                                    <span className="flex items-center gap-2">
-                                                        <Loader2 className="w-5 h-5 animate-spin" />
-                                                        Processing...
-                                                    </span>
-                                                ) : (
-                                                    "Complete Registration"
-                                                )}
-                                            </Button>
-                                            <p className="text-center text-sm text-muted-foreground">
-                                                Already have an account?{" "}
-                                                <Link to="/login" className="text-primary font-bold hover:underline">
-                                                    Login
-                                                </Link>
-                                            </p>
-                                        </div>
-                                    </form>
-                                </div>
-                            </motion.div>
+                        {/* Main content area */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                            className="max-w-4xl mx-auto w-full"
+                        >
+                            <div className="rounded-[2.5rem] bg-white shadow-2xl shadow-black/5 border border-border/50 overflow-hidden relative">
+                                <div className="absolute top-0 left-0 right-0 h-2 bg-primary" />
 
-                            {/* Right panel - image & schedule */}
-                            <motion.div
-                                initial={{ opacity: 0, x: 24 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.4, duration: 0.5 }}
-                                className="relative lg:sticky lg:top-32"
-                            >
-                                <div className="rounded-3xl overflow-hidden shadow-2xl shadow-black/10 border border-border/30 group">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&h=800&fit=crop"
-                                        alt="Medical professionals in training"
-                                        className="w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                                        <div className="rounded-2xl bg-white/95 backdrop-blur-md p-6 shadow-lg border border-white/50">
-                                            <div className="flex items-center justify-between mb-4">
-                                                <h3 className="text-lg font-bold text-foreground">In-Person Sessions</h3>
-                                                <Calendar className="w-5 h-5 text-primary" />
+                                <div className="p-2 lg:p-4 min-h-[900px] flex flex-col">
+                                    <div className="p-6 text-center border-b border-border/10 mb-2">
+                                        <p className="text-sm font-bold text-primary mb-1">Official Registration</p>
+                                        <h2 className="text-xl font-bold text-foreground">Complete the form below to apply</h2>
+                                    </div>
+
+                                    <iframe
+                                        src="https://docs.google.com/forms/d/e/1FAIpQLSfKu6iyvjk0iqNbmB_FLmhXOI9CHYFKH_PlkM_ziHNq4iyZOA/viewform?embedded=true"
+                                        className="w-full flex-grow min-h-[850px] border-0"
+                                        title="Official Registration Form"
+                                    >
+                                        Loading form…
+                                    </iframe>
+
+                                    <div className="p-6 bg-slate-50 border-t border-border/10">
+                                        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                                            <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+                                                <div className="w-2 h-2 rounded-full bg-green-500" />
+                                                Secure registration powered by Google
                                             </div>
-                                            <div className="space-y-3 text-sm">
-                                                <div className="flex justify-between items-center py-2 border-b border-border/50">
-                                                    <span className="font-medium text-foreground">Mon–Fri (Clinical)</span>
-                                                    <span className="text-muted-foreground font-semibold">10:00 – 18:00</span>
-                                                </div>
-                                                <div className="flex justify-between items-center py-2 border-b border-border/50">
-                                                    <span className="font-medium text-foreground">Saturday (Workshop)</span>
-                                                    <span className="text-muted-foreground font-semibold">10:00 – 12:00</span>
-                                                </div>
-                                                <div className="flex justify-between items-center py-2">
-                                                    <span className="font-medium text-foreground">Sunday (Mentorship)</span>
-                                                    <span className="text-muted-foreground font-semibold">12:00 – 15:00</span>
-                                                </div>
-                                            </div>
+                                            <p className="text-xs text-muted-foreground">
+                                                Already have a portal account? <Link to="/login" className="text-primary hover:underline font-bold">Sign In</Link>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            </motion.div>
-                        </div>
+                            </div>
+
+                            <p className="text-center mt-8 text-sm text-muted-foreground font-medium">
+                                Technical issues? Contact us at <a href="mailto:aiimscardiology@gmail.com" className="text-primary hover:underline">aiimscardiology@gmail.com</a>
+                            </p>
+                        </motion.div>
                     </div>
                 </section>
             </main>
